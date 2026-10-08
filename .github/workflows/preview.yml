@@ -25,14 +25,20 @@ jobs:
             const {owner, repo} = context.repo;
             const repository = (await github.rest.repos.get({owner, repo})).data;
             if (repository.private) {
+              core.setOutput('blocked_reason', 'private-repository');
               core.setFailed('Stopped: free GitHub Pages normally requires a public repository. No privacy or billing settings were changed.');
               return;
             }
             try {
-              await github.rest.repos.getPages({owner, repo});
+              const existing = (await github.rest.repos.getPages({owner, repo})).data;
+              core.setOutput('blocked_reason', 'existing-website');
+              core.setOutput('existing_url', existing.html_url || '');
               core.setFailed('Stopped: an existing GitHub Pages website was found. It has not been replaced.');
             } catch (error) {
-              if (error.status !== 404) throw error;
+              if (error.status !== 404) {
+                core.setOutput('blocked_reason', `github-access-${error.status || 'unknown'}`);
+                throw error;
+              }
               core.setOutput('eligible', 'true');
             }
       - uses: actions/setup-node@v4
@@ -79,6 +85,8 @@ jobs:
           GOVERNOR_DEPLOYMENT: ${{ steps.deployment.outcome }}
           GOVERNOR_LIVECHECK: ${{ steps.livecheck.outcome }}
           GOVERNOR_ELIGIBLE: ${{ steps.eligibility.outputs.eligible }}
+          GOVERNOR_BLOCKED: ${{ steps.eligibility.outputs.blocked_reason }}
+          GOVERNOR_EXISTING_URL: ${{ steps.eligibility.outputs.existing_url }}
         with:
           script: |
             const {owner, repo} = context.repo;
@@ -99,6 +107,8 @@ jobs:
               deployment: process.env.GOVERNOR_DEPLOYMENT || 'not-started',
               websiteCheck: process.env.GOVERNOR_LIVECHECK || 'not-started',
               eligible: process.env.GOVERNOR_ELIGIBLE === 'true',
+              blockedReason: process.env.GOVERNOR_BLOCKED || null,
+              existingUrl: process.env.GOVERNOR_EXISTING_URL || null,
               runUrl: `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`,
               note: 'Only the app shell is hosted. Personal cloud sync requires the owner account setup.'
             };
