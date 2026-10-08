@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="A quieter place to decide what matters and take the next step. Your personal Governor OS.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Governor">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+  <title>The Governor · Your personal OS</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#tunnel" aria-label="The Governor home"><span class="brand-mark">g.</span><span>the governor<span class="brand-caption">YOUR PERSONAL OPERATING SYSTEM</span></span></a>
+      <div class="sidebar-label">YOUR SPACE</div>
+      <nav aria-label="Main navigation">
+        <a href="#tunnel" data-zone="tunnel"><span aria-hidden="true">◉</span><span>The Tunnel<small>Focus on today</small></span></a>
+        <a href="#compass" data-zone="compass"><span aria-hidden="true">◇</span><span>The Compass<small>Keep your direction</small></span></a>
+        <a href="#vault" data-zone="vault"><span aria-hidden="true">▤</span><span>The Vault<small>A home for your knowledge</small></span></a>
+      </nav>
+      <div class="sidebar-note"><span class="tiny-label">A SMALL REMINDER</span><p>You don’t need to do everything.<br>Just the next meaningful thing.</p><span class="note-line"></span></div>
+      <div class="sidebar-bottom"><button class="settings-button" id="settings-button">⚙ <span>Settings & backups</span></button><div class="connection"><span class="status-dot" id="status-dot"></span><span id="sync-status" role="status">Saved on this device</span></div></div>
+    </aside>
+    <div class="main-wrap">
+      <header class="topbar"><div class="topbar-copy"><span class="live-dot"></span> A LITTLE MORE INTENTION. A LITTLE LESS NOISE.</div><div class="mobile-brand">the governor<small id="mobile-sync-status">Saved on this device</small></div><div class="topbar-actions"><button class="button subtle" id="capture-button"><span aria-hidden="true">＋</span> Quick capture</button><button class="icon-button mobile-settings" id="mobile-settings" data-action="settings" aria-label="Settings and backups">⚙</button></div></header>
+      <main id="main" tabindex="-1"></main>
+      <footer class="footer"><span>Built around your life. At your pace.</span><span id="footer-status">No scores. No streaks. Just progress.</span></footer>
+    </div>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
