@@ -1,0 +1,20 @@
+{
+  "savedAt": "2026-10-08T19:05:26.958Z",
+  "sourceCommit": "fb98413a60994c7005a6c19ee05063ea7528e446",
+  "releaseUrl": "https://github.com/ahmadyasser3030/The-Governer/releases/tag/governor-v1.0.0-preview",
+  "downloads": [
+    {
+      "name": "Governor.html",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v1.0.0-preview/Governor.html",
+      "bytes": 97071,
+      "sha256": "9ee5fe994c7262065ae753e8e62b40810096375ca1968bb736722976a87dcbda"
+    },
+    {
+      "name": "Governor-website.zip",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v1.0.0-preview/Governor-website.zip",
+      "bytes": 57776,
+      "sha256": "27ff777c50be30a242411e18c1d9cca3198a8f80c91454a6073299d7f5cba457"
+    }
+  ],
+  "websiteOnline": false
+}
