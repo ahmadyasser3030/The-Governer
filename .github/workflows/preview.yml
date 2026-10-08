@@ -1,7 +1,5 @@
 name: Put the Governor online
 on:
-  push:
-    branches: [governor-preview]
   workflow_dispatch:
 permissions:
   contents: write

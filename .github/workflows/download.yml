@@ -1,0 +1,51 @@
+name: Save the openable Governor app
+on:
+  push:
+    branches: [governor-preview]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  save-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package the app
+        run: python3 scripts/package.py
+      - name: Save the app as a private repository download
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+            const crypto = require('node:crypto');
+            const {owner, repo} = context.repo;
+            const tag = 'governor-v1.0.0-preview';
+            let release;
+            try { release = (await github.rest.repos.getReleaseByTag({owner, repo, tag})).data; }
+            catch (error) {
+              if (error.status !== 404) throw error;
+              release = (await github.rest.repos.createRelease({owner, repo, tag_name:tag,
+                target_commitish:context.sha, name:'The Governor — your app', prerelease:true,
+                body:'Download Governor.html and open it on your laptop. The app saves on your device. The website and phone/laptop cloud sync are not activated yet. No payment or repository privacy settings have been changed.'})).data;
+            }
+            const folder = path.resolve(process.env.GITHUB_WORKSPACE, '..', 'governor-delivery');
+            const downloads = [];
+            for (const [file, name, type] of [['governor-offline.html','Governor.html','text/html'],['governor-site.zip','Governor-website.zip','application/zip']]) {
+              const bytes = fs.readFileSync(path.join(folder,file));
+              const old = release.assets.find(asset => asset.name === name);
+              if (old) await github.rest.repos.deleteReleaseAsset({owner, repo, asset_id:old.id});
+              const asset = (await github.rest.repos.uploadReleaseAsset({owner, repo, release_id:release.id,
+                name, data:bytes, headers:{'content-type':type,'content-length':bytes.length}})).data;
+              downloads.push({name,url:asset.browser_download_url,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
+            }
+            const branch = 'governor-publish-status';
+            const ref = `heads/${branch}`;
+            try { await github.rest.git.getRef({owner, repo, ref}); }
+            catch(error) { if(error.status!==404)throw error;await github.rest.git.createRef({owner, repo, ref:`refs/${ref}`,sha:context.sha}); }
+            const filename='governor-download.json';let sha;
+            try { sha=(await github.rest.repos.getContent({owner,repo,path:filename,ref:branch})).data.sha; }
+            catch(error) { if(error.status!==404)throw error; }
+            const result={savedAt:new Date().toISOString(),sourceCommit:context.sha,releaseUrl:release.html_url,downloads,websiteOnline:false};
+            await github.rest.repos.createOrUpdateFileContents({owner,repo,path:filename,branch,
+              message:'Save the Governor app download links',content:Buffer.from(JSON.stringify(result,null,2)+'\n').toString('base64'),...(sha?{sha}:{})});
