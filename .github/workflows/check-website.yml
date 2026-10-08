@@ -1,0 +1,100 @@
+name: Check the live Governor website
+on:
+  push:
+    branches: [governor-preview]
+    paths: [.github/workflows/check-website.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the website address and check hosted files
+        id: website
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const repository = (await github.rest.repos.get({owner, repo})).data;
+            core.setOutput('private', String(repository.private));
+            let site;
+            try { site = (await github.rest.repos.getPages({owner, repo})).data; }
+            catch (error) {
+              core.setOutput('problem', `pages-${error.status || 'unavailable'}`);
+              core.setFailed('Website settings could not be confirmed.');
+              return;
+            }
+            core.setOutput('url', site.html_url);
+            core.setOutput('source_branch', site.source?.branch || '');
+            core.setOutput('build_status', site.status || '');
+            for (let attempt = 0; attempt < 6; attempt++) {
+              try {
+                const response = await fetch(site.html_url);
+                const html = await response.text();
+                const app = await fetch(new URL('app.js', site.html_url));
+                const worker = await fetch(new URL('sw.js', site.html_url));
+                if (response.ok && app.ok && worker.ok && html.includes('id="main"')) {
+                  core.setOutput('ready', 'true');
+                  return;
+                }
+                core.setOutput('problem', `website-http-${response.status}`);
+              } catch (error) { core.setOutput('problem', error.message); }
+              await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            core.setFailed('The website is not serving the Governor app yet.');
+      - uses: actions/setup-node@v4
+        if: steps.website.outputs.ready == 'true'
+        with:
+          node-version: '24'
+      - name: Prepare the browser
+        if: steps.website.outputs.ready == 'true'
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          node --input-type=module -e "import {chromium} from 'playwright'; console.log('GOVERNOR_CHROMIUM=' + chromium.executablePath())" >> "$GITHUB_ENV"
+      - name: Test the real website on laptop and phone screens, including offline use
+        id: browser
+        if: steps.website.outputs.ready == 'true'
+        env:
+          GOVERNOR_TEST_URL: ${{ steps.website.outputs.url }}
+        run: npm run test:browser
+      - name: Save the check result
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          SITE_URL: ${{ steps.website.outputs.url }}
+          SITE_READY: ${{ steps.website.outputs.ready }}
+          SITE_PRIVATE: ${{ steps.website.outputs.private }}
+          SITE_SOURCE: ${{ steps.website.outputs.source_branch }}
+          SITE_BUILD: ${{ steps.website.outputs.build_status }}
+          SITE_PROBLEM: ${{ steps.website.outputs.problem }}
+          BROWSER_RESULT: ${{ steps.browser.outcome }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const {owner, repo} = context.repo;
+            const branch = 'governor-publish-status';
+            const path = 'governor-website-check.json';
+            const data = {
+              checkedAt: new Date().toISOString(),
+              url: process.env.SITE_URL || null,
+              ready: process.env.SITE_READY === 'true',
+              repositoryPrivate: process.env.SITE_PRIVATE === 'true',
+              sourceBranch: process.env.SITE_SOURCE || null,
+              buildStatus: process.env.SITE_BUILD || null,
+              problem: process.env.SITE_PROBLEM || null,
+              browserResult: process.env.BROWSER_RESULT || 'not-started',
+              browserChecks: fs.existsSync('test-results/browser-results.json') ? JSON.parse(fs.readFileSync('test-results/browser-results.json', 'utf8')) : null,
+              cloudConnected: false,
+              runUrl: `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`
+            };
+            let sha;
+            try { sha = (await github.rest.repos.getContent({owner, repo, path, ref:branch})).data.sha; }
+            catch (error) { if (error.status !== 404) throw error; }
+            await github.rest.repos.createOrUpdateFileContents({owner, repo, path, branch,
+              message:'Record live Governor website checks',
+              content:Buffer.from(JSON.stringify(data, null, 2) + '\n').toString('base64'),
+              ...(sha ? {sha} : {})});
