@@ -23,12 +23,9 @@ jobs:
         with:
           script: |
             const {owner, repo} = context.repo;
-            const repository = (await github.rest.repos.get({owner, repo})).data;
-            if (repository.private) {
-              core.setOutput('blocked_reason', 'private-repository');
-              core.setFailed('Stopped: free GitHub Pages normally requires a public repository. No privacy or billing settings were changed.');
-              return;
-            }
+            // Enabling Pages never purchases a plan or changes repository visibility.
+            // Let GitHub enforce actual account eligibility, including free education entitlements.
+            await github.rest.repos.get({owner, repo});
             try {
               const existing = (await github.rest.repos.getPages({owner, repo})).data;
               core.setOutput('blocked_reason', 'existing-website');
@@ -39,7 +36,15 @@ jobs:
                 core.setOutput('blocked_reason', `github-access-${error.status || 'unknown'}`);
                 throw error;
               }
-              core.setOutput('eligible', 'true');
+              try {
+                const created = (await github.rest.repos.createPagesSite({owner, repo, build_type:'workflow'})).data;
+                core.setOutput('eligible', 'true');
+                core.setOutput('existing_url', created.html_url || '');
+              } catch (creationError) {
+                core.setOutput('blocked_reason', `pages-enable-${creationError.status || 'unknown'}`);
+                core.setOutput('blocked_detail', creationError.response?.data?.message || creationError.message);
+                core.setFailed('GitHub could not enable website hosting. No payment or privacy settings were changed.');
+              }
             }
       - uses: actions/setup-node@v4
         with:
@@ -87,6 +92,7 @@ jobs:
           GOVERNOR_ELIGIBLE: ${{ steps.eligibility.outputs.eligible }}
           GOVERNOR_BLOCKED: ${{ steps.eligibility.outputs.blocked_reason }}
           GOVERNOR_EXISTING_URL: ${{ steps.eligibility.outputs.existing_url }}
+          GOVERNOR_BLOCKED_DETAIL: ${{ steps.eligibility.outputs.blocked_detail }}
         with:
           script: |
             const {owner, repo} = context.repo;
@@ -109,6 +115,7 @@ jobs:
               eligible: process.env.GOVERNOR_ELIGIBLE === 'true',
               blockedReason: process.env.GOVERNOR_BLOCKED || null,
               existingUrl: process.env.GOVERNOR_EXISTING_URL || null,
+              blockedDetail: process.env.GOVERNOR_BLOCKED_DETAIL || null,
               runUrl: `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`,
               note: 'Only the app shell is hosted. Personal cloud sync requires the owner account setup.'
             };
