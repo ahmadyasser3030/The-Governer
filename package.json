@@ -1,0 +1,17 @@
+{
+  "name": "the-governor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server ${GOVERNOR_PORT:-4173} --bind 0.0.0.0",
+    "test": "node --test tests/core.test.js",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
