@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-08T18:51:56.851Z",
+  "sourceCommit": "7f28787b852a6fe7bd6fdc2b27395c7fcfec3615",
+  "url": null,
+  "deployment": "skipped",
+  "websiteCheck": "skipped",
+  "eligible": false,
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37827543187",
+  "note": "Only the app shell is hosted. Personal cloud sync requires the owner account setup."
+}
