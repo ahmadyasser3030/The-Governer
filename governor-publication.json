@@ -1,10 +1,12 @@
 {
-  "checkedAt": "2026-10-08T18:51:56.851Z",
-  "sourceCommit": "7f28787b852a6fe7bd6fdc2b27395c7fcfec3615",
+  "checkedAt": "2026-10-08T18:53:42.635Z",
+  "sourceCommit": "e79276b562757ce117dd0c71ac33c30196ea61bc",
   "url": null,
   "deployment": "skipped",
   "websiteCheck": "skipped",
   "eligible": false,
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37827543187",
+  "blockedReason": "private-repository",
+  "existingUrl": null,
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37827763882",
   "note": "Only the app shell is hosted. Personal cloud sync requires the owner account setup."
 }
