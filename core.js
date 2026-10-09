@@ -69,6 +69,7 @@ export function validateState(value) {
       if (col === 'checkins' && (typeof item.date !== 'string' || typeof item.note !== 'string' || typeof item.energy !== 'string')) throw new Error('Invalid check-in.');
       if (col === 'legacy' && (typeof item.title !== 'string' || typeof item.category !== 'string' || typeof item.body !== 'string')) throw new Error('Invalid preserved record.');
       if (col === 'settings' && id === 'plan' && ['start','horizon','military','why1','why3','why5'].some(k => typeof item[k] !== 'string')) throw new Error('Invalid sprint plan.');
+      if (col === 'settings' && item.kind === 'main-area' && (['title','topic','topicLabel','icon'].some(k=>typeof item[k]!=='string') || !item.title.trim() || item.title.length>80 || !item.topic.trim() || typeof item.visible!=='boolean' || !Number.isSafeInteger(item.order) || item.order<0)) throw new Error('Invalid main area.');
       if (col === 'settings' && id === 'mode' && !['normal','low','maintenance'].includes(item.value)) throw new Error('Invalid energy mode.');
     }
   }

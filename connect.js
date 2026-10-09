@@ -1,4 +1,4 @@
-import {loadConfig, saveConfig} from './cloud.js?v=20261009-r3';
+import {loadConfig, saveConfig} from './cloud.js?v=20261009-r4';
 
 // Supabase publishable keys are public browser configuration, never admin credentials.
 const project = {url:'https://hppccgyxrppawcaspytm.supabase.co', key:'sb_publishable_-QzwJwSgSauu28GX6TILfA_72MB9mTU'};

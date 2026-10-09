@@ -1,4 +1,4 @@
-import {STORAGE_KEY, initialState, validateState} from './core.js?v=20261009-r3';
+import {STORAGE_KEY, initialState, validateState} from './core.js?v=20261009-r4';
 
 // Browser profiles prevent accidental cross-account uploads. They are not encryption.
 export const PROFILE_KEY = 'governor.profile.active.v1';
