@@ -1,5 +1,8 @@
 name: Put the Governor online
 on:
+  push:
+    branches: [governor-preview]
+    paths: [.github/workflows/preview.yml]
   workflow_dispatch:
 permissions:
   contents: write
@@ -121,3 +124,7 @@ jobs:
               message: 'Record Governor website publication outcome',
               content: Buffer.from(JSON.stringify(data, null, 2) + '\n').toString('base64'),
               ...(sha ? {sha} : {})});
+  check-owner-website:
+    needs: publish
+    if: always()
+    uses: ./.github/workflows/check-website.yml

@@ -1,5 +1,6 @@
 name: Check the live Governor website
 on:
+  workflow_call:
   push:
     branches: [governor-preview]
     paths: [.github/workflows/check-website.yml]
