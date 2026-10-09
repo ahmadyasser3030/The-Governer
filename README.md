@@ -2,6 +2,10 @@
 
 A free, personal, offline-capable web app that reduces daily planning to a concrete next action. Responsive on phone and laptop; no runtime dependencies or paid AI.
 
+**Open the app:** https://ahmadyasser3030.github.io/The-Governer/
+
+The owner enabled free GitHub Pages hosting from `governor-site`. The actual HTTPS website passed all 14 browser workflows on October 9, 2026, including mobile layout, persistence, backup restoration and network-disabled reopening. Private Supabase syncing still requires the owner's project connection and live validation.
+
 - **Tunnel:** at most three priorities, one-click completion, thought capture, an optional focus timer, short check-ins and gentle low-energy/maintenance modes.
 - **Compass:** BAUER, KAITECH and personal capacity outcomes, evidence-based milestones, weekly reviews, 1/3/5-year Why, military planning horizon and monthly history.
 - **Vault:** searchable practical reference cards and your own notes covering all discussed interests. Legacy categories remain preserved and accessible.

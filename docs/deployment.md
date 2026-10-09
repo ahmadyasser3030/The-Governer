@@ -18,7 +18,7 @@ The server listens on port 4173. Use local HTTP requests only for internal onboa
 1. Run `python3 scripts/package.py` to build `/workspace/governor-delivery/governor-site.zip` and the complete delivery bundle. Only public app assets enter the hosting ZIP; no exports, sessions, tests or backups are published.
 2. Review the candidate. Keep the existing deployment until the new version and real-data migration are approved.
 3. Upload the hosting ZIP to a Free Cloudflare Pages Direct Upload project. No build command or function is needed. Do not enable paid products or attach a paid domain.
-4. Alternatively, enable GitHub Pages with source “GitHub Actions” and trigger the supplied workflow manually from the reviewed branch. It does not deploy automatically on pushes. GitHub account/repository eligibility must be checked.
+4. The owner enabled free GitHub Pages using “Deploy from a branch”, branch `governor-site`, folder `/(root)`. The live address is https://ahmadyasser3030.github.io/The-Governer/. That branch contains only public app assets. Update it with reviewed, tested assets to publish a website update. Diagnostic workflows in `governor-preview` do not replace an existing website.
 5. Open the resulting HTTPS address on both devices, follow `cloud-setup.html` if syncing, and perform its live-device checklist. Publish a fresh candidate address before replacing an existing site.
 
 The app works under a project subpath, including GitHub Pages. Asset URLs, manifest ID/scope/start URL and service-worker shell entries are relative.
@@ -37,6 +37,8 @@ The complete bundle also contains `governor-offline.html`, with CSS and JavaScri
 - For rollback, keep using the old site and its original export. The new cloud table is separate from the candidate's old table; do not delete either during review.
 - Supabase Free can pause with low activity and does not provide downloadable managed backups. Resume through its dashboard when needed; retain independent exports.
 
-## What is not published or connected here
+## Publication and remaining connection
 
-No hosting account credentials or Supabase project configuration were supplied. The GitHub read operation succeeded, while GitHub API access was blocked by the environment's egress policy. No remote push, deployment, database creation or real cross-device sync was performed. The saved environment configuration prepares this workspace; publication of that cloud environment is separate from publishing the app website.
+The source is saved on `governor-preview`; the public website is served from `governor-site`; the laptop HTML and website ZIP are saved in the `governor-v1.0.0-preview` release. Main and the original Floot deployment were not replaced. The owner activated Pages in their account. All 14 browser workflows then passed against the actual HTTPS address, including offline reopening and 360-pixel layouts, on October 9, 2026.
+
+No Supabase project configuration has been supplied or installed. Live database creation, row-level access checks and actual phone/laptop syncing remain pending. GitHub API requests from this workspace are blocked by its egress policy; read-only website verification ran on the repository's GitHub Actions runner and saved results to `governor-publish-status`. The saved environment configuration prepares this workspace; publication of that cloud environment is separate from publishing the app website.

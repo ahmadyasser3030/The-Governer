@@ -2,6 +2,8 @@
 
 Tests ran in the actual cloud workspace using Node 24, Python 3 and system Chromium with Playwright. The report below distinguishes verified local behavior from external work still required.
 
+On October 9, 2026, all 14 browser workflows also passed against the actual deployed HTTPS site, https://ahmadyasser3030.github.io/The-Governer/, in a GitHub Actions browser. The result reported `ready: true`, source branch `governor-site`, build status `built`, zero browser errors, and successful mobile and offline checks. Cloud tests in that run still used a simulated API; the user's live Supabase project has not been connected.
+
 ## Verified
 
 - 14 data-model tests: seed priorities, exact JSON round trip, independent-device merge, deterministic same-item conflicts, tombstones, monotonic clocks, non-punitive missed days, energy modes, calendar boundaries, malformed-backup rejection, full legacy field retention, stable repeated imports, malformed legacy categories and multi-chunk source reconstruction.
@@ -32,9 +34,9 @@ Screenshots and machine-readable synthetic results are in ignored `test-results/
 
 - Live Supabase sign-in, SQL execution, unauthorized-user access denial, or phone/laptop sync against the user's project. Cloud API responses were simulated; they do not prove live cloud readiness.
 - Actual Safari/iPhone and Android installation or OS storage retention during long absences.
-- Public HTTPS website deployment, GitHub push, or replacement of any original Floot app.
+- Replacement of the original Floot app. The new candidate is online separately; its source and openable laptop download are saved on GitHub.
 - Actual personal-data migration from Floot or another website.
 - Permanent free-provider availability or guarantees against project pausing.
 - Direct `file://` opening of the portable HTML: the cloud-managed browser blocks local-file navigation. Its embedded code can be exercised through a local server with networking disabled after loading; this is distinct from testing a user's laptop file-opening policy.
 
-The app files are prepared and tested locally. Hosting and live private sync require a user-owned account and its public project configuration. Do not treat environment snapshot publication as website deployment.
+The new website is published and tested. Live private sync requires the user's project connection and account setup. Environment snapshot publication is separate from website deployment.
