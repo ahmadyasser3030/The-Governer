@@ -63,6 +63,7 @@ export function validateState(value) {
       if (col === 'notes' && (typeof item.title !== 'string' || typeof item.body !== 'string' || typeof item.category !== 'string' || typeof item.url !== 'string')) throw new Error('Invalid library entry.');
       if (col === 'goals' && (typeof item.title !== 'string' || typeof item.subtitle !== 'string' || typeof item.outcome !== 'string' || typeof item.milestone !== 'string' || typeof item.evidence !== 'string' || !Number.isFinite(item.progress) || item.progress < 0 || item.progress > 100)) throw new Error('Invalid outcome.');
       if (col === 'goals' && item.status !== undefined && !['active','paused','archived','completed','deleted'].includes(item.status)) throw new Error('Invalid goal status.');
+      if (col === 'goals' && item.startDate !== undefined && (typeof item.startDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(item.startDate) || Number.isNaN(Date.parse(item.startDate)) || new Date(`${item.startDate}T12:00:00Z`).toISOString().slice(0,10) !== item.startDate)) throw new Error('Invalid plan start date.');
       if (col === 'goals' && item.tracking !== undefined && !['manual','target','milestones'].includes(item.tracking)) throw new Error('Invalid goal measurement.');
       if (col === 'goals' && ['target','current'].some(k=>item[k]!==undefined && (!Number.isFinite(item[k]) || item[k]<0))) throw new Error('Invalid measurable target.');
       if (col === 'reviews' && (typeof item.date !== 'string' || typeof item.wins !== 'string' || typeof item.obstacles !== 'string' || typeof item.next !== 'string')) throw new Error('Invalid review.');
@@ -101,6 +102,30 @@ export function goalProgress(goal) {
     return months.length ? Math.round(100 * months.filter(n => goal[`month${n}Done`]).length / months.length) : 0;
   }
   return Math.min(100, Math.max(0, Number(goal.progress) || 0));
+}
+// Daily execution stays derived from saved actions; outcome measurements remain intact.
+export function planWindow(state, goal) {
+  const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(`${value}T12:00:00Z`).toISOString().slice(0,10) === value;
+  const start = validDate(goal.startDate) ? goal.startDate : validDate(state.settings.plan?.start) ? state.settings.plan.start : today();
+  const horizon = ['30 days','90 days','1 year','3 years','5+ years'].includes(goal.horizon) ? goal.horizon : '90 days';
+  let days = horizon === '30 days' ? 30 : 90;
+  if (horizon.includes('year')) {
+    const years = horizon === '1 year' ? 1 : horizon === '3 years' ? 3 : 5;
+    const [year,month,day] = start.split('-').map(Number);
+    const lastDay = new Date(Date.UTC(year+years,month,0)).getUTCDate();
+    const anniversary = `${year+years}-${String(month).padStart(2,'0')}-${String(Math.min(day,lastDay)).padStart(2,'0')}`;
+    days = dayDifference(anniversary,start);
+  }
+  return {start,end:addDays(start,days-1),days,horizon};
+}
+export function planDayProgress(state, goal, asOf = today()) {
+  const window = planWindow(state,goal), dates = new Set();
+  for (const task of records(state,'tasks')) {
+    if (task.goal !== goal.id || !task.done || (task.legacyCompletion && !task.completedAt)) continue;
+    const date = task.completedAt || task.date;
+    if (date >= window.start && date <= window.end && date <= asOf && /^\d{4}-\d{2}-\d{2}$/.test(date)) dates.add(date);
+  }
+  return {...window,completed:dates.size,percent:Math.round(1000*dates.size/window.days)/10};
 }
 function snapshotGoal(state, goal, device) {
   const group = `goal-history-${encodeURIComponent(goal.id)}-${goal.updatedAt}-${encodeURIComponent(goal.device)}`;
@@ -151,6 +176,17 @@ export function carryTask(state, id, date, device, values={}) {
   if(state.tasks[destination] && !state.tasks[destination].deleted) throw new Error('This action already has an entry for that day. Edit that entry instead.');
   put(state,'tasks',id,{paused:!task.done,carriedTo:destination},device);
   return put(state,'tasks',destination,{...task,...values,date,rolledFrom:root,carriedTo:'',done:false,completedAt:'',paused:false},device);
+}
+export function parkedTasks(state, date=today()) {
+  const visible = dailyTasks(state,date).filter(t=>!t.done&&!t.paused&&!t.carriedTo).slice(0,taskLimit(state));
+  return records(state,'tasks').filter(t=>!t.done&&!t.carriedTo&&(t.paused||t.date<date||(t.date===date&&!visible.some(v=>v.id===t.id)))).sort((a,b)=>(a.order||0)-(b.order||0)||a.updatedAt-b.updatedAt);
+}
+export function focusParked(state, ids, device, date=today()) {
+  if(dailyTasks(state,date).some(t=>!t.done&&!t.paused&&!t.carriedTo)) throw new Error('Finish or park your current priorities before choosing the next group.');
+  if(!ids.length||ids.length>taskLimit(state)||new Set(ids).size!==ids.length) throw new Error(`Choose 1 to ${taskLimit(state)} parked priorities.`);
+  const available=new Set(parkedTasks(state,date).map(t=>t.id));
+  if(ids.some(id=>!available.has(id))) throw new Error('A selected priority changed. Choose again from the parked lane.');
+  return ids.map((id,order)=>carryTask(state,id,date,device,{order}));
 }
 export function put(state, col, id, values, device, now = Date.now()) {
   // A monotonic logical timestamp prevents clock changes from resurrecting old edits.

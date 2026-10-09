@@ -10,7 +10,9 @@
     "test:gold": "node tests/gold.cjs",
     "test:handoff": "node tests/handoff.cjs",
     "test:update": "node tests/update.cjs",
-    "test:areas": "node tests/areas.cjs"
+    "test:areas": "node tests/areas.cjs",
+    "test:links": "node tests/linked-plans.cjs",
+    "test:parked": "node tests/parked.cjs"
   },
   "engines": {
     "node": ">=20"

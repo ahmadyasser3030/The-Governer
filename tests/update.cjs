@@ -1,5 +1,5 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),http=require('node:http'),path=require('node:path'),{execFileSync}=require('node:child_process');
-const ROOT=path.resolve(__dirname,'..'), RELEASE='20261009-r4', checks=[], errors=[];
+const ROOT=path.resolve(__dirname,'..'), RELEASE='20261009-r5', checks=[], errors=[];
 const oldFiles=new Map();let phase='old',oldCommit='dee748d48875dcd51fb3f105188c6847f1bad652';
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
 const server=http.createServer((req,res)=>{
@@ -69,9 +69,9 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  await check('normal reopening also upgrades the previous Gold cache without needing the helper',async()=>{
   oldCommit='3cc3ff4eff9a792d3485f7e5dcb6295d08b2bfa9';phase='old';const context=await fixtureContext(),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(BASE);await page.locator('.hero').waitFor();await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();
-  phase='current';await page.reload();await page.waitForFunction(()=>document.querySelector('meta[name=governor-release]')?.content==='20261009-r4');await page.locator('.quick-grid').waitFor();
+  phase='current';await page.reload();await page.waitForFunction(()=>document.querySelector('meta[name=governor-release]')?.content==='20261009-r5');await page.locator('.quick-grid').waitFor();
   assert.equal(await page.locator('meta[name=governor-release]').getAttribute('content'),RELEASE);
-  await page.waitForFunction(async()=>{const channel=new MessageChannel();const answer=new Promise(resolve=>{channel.port1.onmessage=e=>{channel.port1.close();resolve(e.data?.release==='20261009-r4');};setTimeout(()=>{channel.port1.close();resolve(false);},400);});navigator.serviceWorker.controller?.postMessage({type:'GOVERNOR_VERSION'},[channel.port2]);return answer;});
+  await page.waitForFunction(async()=>{const channel=new MessageChannel();const answer=new Promise(resolve=>{channel.port1.onmessage=e=>{channel.port1.close();resolve(e.data?.release==='20261009-r5');};setTimeout(()=>{channel.port1.close();resolve(false);},400);});navigator.serviceWorker.controller?.postMessage({type:'GOVERNOR_VERSION'},[channel.port2]);return answer;});
   assert.ok(await page.evaluate(()=>JSON.parse(localStorage.getItem('governor.os.v1')).notes['private-note']));await context.close();
  });
  if(process.env.GOVERNOR_TEST_URL)await check('published update link opens the verified gold edition, then works offline',async()=>{

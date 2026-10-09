@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {initialState, emptyState, mergeStates, validateState, put, records, dailyTasks, taskLimit, makeBackup, readBackup, dayDifference, addDays, rolloverCandidates, saveGoal, goalHistory, goalProgress, activeGoals, carryTask, executionDays} from '../core.js';
+import {initialState, emptyState, mergeStates, validateState, put, records, dailyTasks, taskLimit, makeBackup, readBackup, dayDifference, addDays, rolloverCandidates, saveGoal, goalHistory, goalProgress, activeGoals, carryTask, executionDays, planWindow, planDayProgress, parkedTasks, focusParked} from '../core.js';
 import {importFile, recoverOriginal} from '../migration.js';
 
 test('defaults have exactly three concrete priorities and three outcomes',()=>{const s=initialState('2026-10-08');assert.equal(dailyTasks(s,'2026-10-08').length,3);assert.equal(records(s,'goals').length,3);assert.ok(records(s,'tasks').every(t=>t.action.length>20));assert.ok(records(s,'notes').some(n=>n.category==='Communication & logic'));});
@@ -57,4 +57,40 @@ test('Second Brain migration makes goals, notes, books, habits, values and revie
  assert.ok(s.settings.plan.values.includes('Autonomy'));assert.equal(s.settings.plan.start,'2026-10-08');
  const sourceId=records(s,'legacy').find(l=>l.source).source;assert.deepEqual(recoverOriginal(s,sourceId),source);
  put(s,'tasks',task.id,{title:'My revised task'},'owner',Date.now());assert.equal(mergeStates(s,importFile(raw,'reimport')).tasks[task.id].title,'My revised task');
+});
+
+test('plan day progress counts distinct completion days per horizon and leaves outcome targets intact',()=>{
+ const s=initialState('2026-10-01'), g=s.goals.bauer;
+ Object.assign(g,{horizon:'30 days',startDate:'2026-10-01',progress:37,tracking:'target',target:20,current:4});
+ for(const [id,date,goal] of [['a','2026-10-02','bauer'],['b','2026-10-02','bauer'],['c','2026-10-03','bauer'],['other','2026-10-04',''],['outside','2026-11-01','bauer'],['future','2026-10-30','bauer']])put(s,'tasks',id,{title:id,action:id,goal,date,completedAt:date,done:true},'test');
+ assert.equal(planDayProgress(s,g,'2026-10-09').completed,2);assert.equal(planDayProgress(s,g,'2026-10-09').percent,6.7);assert.equal(goalProgress(g),20);assert.equal(g.progress,37);
+ g.horizon='90 days';assert.equal(planDayProgress(s,g,'2026-10-09').percent,2.2);
+ g.horizon='1 year';assert.equal(planDayProgress(s,g,'2026-10-09').days,365);assert.equal(planDayProgress(s,g,'2026-10-09').percent,0.5);
+ put(s,'tasks','c',{done:false,completedAt:''},'test');assert.equal(planDayProgress(s,g,'2026-10-09').completed,1);
+ put(s,'tasks','a',{deleted:true},'test');assert.equal(planDayProgress(s,g,'2026-10-09').completed,1);
+ put(s,'tasks','b',{goal:'kaitech'},'test');assert.equal(planDayProgress(s,g,'2026-10-09').completed,0);
+});
+test('calendar-year horizons handle leap years and stable start/end dates',()=>{
+ const s=initialState('2023-10-01');assert.equal(planWindow(s,{horizon:'1 year'}).days,366);
+ assert.deepEqual(planWindow(s,{horizon:'30 days',startDate:'2026-12-15'}),{start:'2026-12-15',end:'2027-01-13',days:30,horizon:'30 days'});
+ assert.equal(planWindow(s,{horizon:'1 year',startDate:'2024-02-29'}).end,'2025-02-27');
+ assert.equal(planWindow(s,{horizon:'3 years',startDate:'2024-01-01'}).days,1096);
+ assert.equal(planWindow(s,{horizon:'5+ years',startDate:'2024-01-01'}).days,1827);
+ s.goals.bauer.startDate='2026-02-30';assert.throws(()=>validateState(s));
+});
+test('carried actions, undated imports, offline merges and backups do not fabricate plan days',()=>{
+ const s=initialState('2026-10-01'),g=s.goals.bauer;g.horizon='30 days';
+ carryTask(s,'starter-bauer','2026-10-02','a');put(s,'tasks','carry-starter-bauer-2026-10-02',{done:true,completedAt:'2026-10-02'},'a');
+ put(s,'tasks','unknown',{title:'Old completion',action:'Kept',goal:'bauer',date:'2026-10-03',done:true,legacyCompletion:true},'a');
+ const b=structuredClone(s);put(b,'tasks','phone',{title:'Phone work',action:'Kept',goal:'bauer',date:'2026-10-02',completedAt:'2026-10-02',done:true},'b');
+ const merged=readBackup(JSON.stringify(makeBackup(mergeStates(s,b))));assert.equal(planDayProgress(merged,g,'2026-10-09').completed,1);
+ put(b,'tasks','carry-starter-bauer-2026-10-02',{deleted:true},'b');put(b,'tasks','phone',{deleted:true},'b');assert.equal(planDayProgress(mergeStates(merged,b),g,'2026-10-09').completed,0);
+});
+
+test('parked tasks stay outside daily progress and a group unlocks only after focused work is finished',()=>{
+ const s=initialState('2026-10-09');for(let n=0;n<6;n++)put(s,'tasks','park-'+n,{title:'Extra '+n,action:'Output',date:'2026-10-09',goal:'bauer',paused:true,done:false},'a');
+ assert.equal(parkedTasks(s,'2026-10-09').length,6);assert.throws(()=>focusParked(s,['park-0'],'a','2026-10-09'));
+ for(const id of ['starter-bauer','starter-kaitech','starter-capacity'])put(s,'tasks',id,{done:true,completedAt:'2026-10-09'},'a');
+ assert.throws(()=>focusParked(s,['park-0','park-1','park-2','park-3'],'a','2026-10-09'));assert.throws(()=>focusParked(s,['park-0','park-0'],'a','2026-10-09'));
+ focusParked(s,['park-0','park-1','park-2'],'a','2026-10-09');assert.equal(parkedTasks(s,'2026-10-09').length,3);assert.equal(records(s,'tasks').length,9);assert.equal(s.tasks['park-0'].done,false);assert.equal(planDayProgress(s,s.goals.bauer,'2026-10-09').completed,1);
 });

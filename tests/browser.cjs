@@ -52,7 +52,7 @@ async function configure(page) {
   await page.locator('.priority-list').first().locator('[data-action=edit-task]').first().click();
   await page.locator('#task-action').fill('Validate the first 20 source IDs against the KAITECH schema');await page.getByRole('button',{name:'Save priority'}).click();
   assert.ok((await page.locator('.hero .hero-next').innerText()).includes('first 20 source IDs'));
-  await page.getByRole('button',{name:'＋ Add a priority',exact:true}).click();await page.locator('#task-title').fill('Prepare the BAUER report');await page.locator('#task-action').fill('Update planned and actual quantities in the progress sheet');await page.getByRole('button',{name:'Save priority'}).click();
+  await page.getByRole('button',{name:'＋ Add a priority',exact:true}).click();await page.locator('#task-title').fill('Prepare the BAUER report');await page.locator('#task-goal').selectOption('bauer');await page.locator('#task-action').fill('Update planned and actual quantities in the progress sheet');await page.getByRole('button',{name:'Save priority'}).click();
   assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),3);
  });
  await check('daily check-in, weekly review, milestones and horizon persist',async()=>{
@@ -83,7 +83,7 @@ async function configure(page) {
  });
  await check('missed days do not make an overdue pileup and rollover retains earlier month',async()=>{
   await page.evaluate(async()=>{const k='governor.os.v1',s=JSON.parse(localStorage.getItem(k));for(const t of Object.values(s.tasks)){t.date='2026-09-01';t.done=false;}const {persistProfile,PROFILE_KEY}=await import('./profile.js');persistProfile(s,localStorage.getItem(PROFILE_KEY));});await page.reload();assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),0);assert.ok(!(await page.locator('main').innerText()).includes('overdue'));
-  await page.locator('[data-action=parked]').click();await page.locator('[data-action=bring-task]').first().click();const s=await page.evaluate(()=>JSON.parse(localStorage.getItem('governor.os.v1')));assert.ok(Object.values(s.tasks).some(t=>t.date==='2026-09-01'&&t.paused));assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),1);
+  await page.locator('[data-action=parked]').first().click();await page.locator('#parked-focus-form [name=tasks]').first().check();await page.getByRole('button',{name:'Focus selected priorities',exact:true}).click();const s=await page.evaluate(()=>JSON.parse(localStorage.getItem('governor.os.v1')));assert.ok(Object.values(s.tasks).some(t=>t.date==='2026-09-01'&&t.paused));assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),1);
  });
  await check('offline reload, completion, capture and backup work without a network',async()=>{
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await page.waitForFunction(()=>!!navigator.serviceWorker.controller);await context.setOffline(true);await page.reload();await visible(page,'.hero');await page.locator('.hero [data-action=complete]').click();
