@@ -1,4 +1,4 @@
-import { initialState, put, today, validateState, readBackup } from './core.js?v=20261009-r3';
+import { initialState, put, today, validateState, readBackup } from './core.js?v=20261009-r4';
 const CATEGORIES = ['goals','projects','tasks','habits','thoughts','logs','reviews','decisions','fitness','learning','finance','knowledge','books','milestones','events','notes','values'];
 function stableId(text) { let hash = 2166136261; for (const char of text) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619); return (hash >>> 0).toString(16); }
 const text = value => value == null ? '' : typeof value === 'string' ? value : JSON.stringify(value);
