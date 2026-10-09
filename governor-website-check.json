@@ -1,5 +1,7 @@
 {
-  "checkedAt": "2026-10-09T08:05:30.582Z",
+  "checkedAt": "2026-10-09T09:44:15.907Z",
+  "sourceCommit": "5ceee04275d2ab5c292a22ad297aebb1d82220bf",
+  "edition": "Gold",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "ready": true,
   "repositoryPrivate": false,
@@ -8,7 +10,7 @@
   "problem": null,
   "browserResult": "success",
   "browserChecks": {
-    "testedAt": "2026-10-09T08:05:30.369Z",
+    "testedAt": "2026-10-09T09:44:09.843Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -29,6 +31,25 @@
     "errors": [],
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
-  "cloudConnected": false,
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37902764484"
+  "goldChecks": {
+    "testedAt": "2026-10-09T09:44:15.745Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "gold design, crown, optimized hero and all public assets load",
+      "goal creation defaults paused and measurable target updates the real chart",
+      "goals pause, archive, reactivate, complete and delete with retained history",
+      "calendar schedules, edits and carries actions without duplicating earlier records",
+      "weekly and monthly execution charts respond to completion and reopen",
+      "book reading status and page progress persist; notes delete with confirmation and undo",
+      "optional routines track separate dated records without inflating task charts",
+      "values, monthly review, global search and built-in help save and remain accessible",
+      "backup restore retains new goal history, books, routines and calendar records",
+      "360px layouts, gold calendar and offline hero remain usable",
+      "previous schema, goal history fields, cloud connection and private session survive upgrade"
+    ],
+    "errors": [],
+    "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
+  },
+  "privateCloudTest": "No private session available. Existing live sync was previously confirmed by the owner.",
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913138539"
 }
