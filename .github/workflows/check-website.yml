@@ -1,4 +1,5 @@
 name: Check the live Governor website
+# Recheck after the owner enabled branch-based Pages hosting.
 on:
   workflow_call:
   push:
