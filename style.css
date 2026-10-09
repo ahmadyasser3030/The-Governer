@@ -6,3 +6,8 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
 .mobile-settings svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5}
+
+/* Reference-design polish: compact executive layout, consistent gold emphasis. */
+@media (min-width:1100px){.sidebar{width:250px}.main-wrap{width:calc(100% - 250px);margin-left:250px}.today-layout{grid-template-columns:minmax(0,1fr) 320px;gap:16px}.hero{min-height:306px;padding:32px 34px}.sidebar nav a{min-height:65px}.area-links button{min-height:42px}}
+@media (max-width:1099px) and (min-width:761px){.today-layout{grid-template-columns:minmax(0,1fr) 260px;gap:12px}}
+.hero{background-position:center center}.hero h2{font-weight:750}.brand-mark{filter:drop-shadow(0 2px 10px #efc16d33)}.sidebar nav a.active{box-shadow:inset 3px 0 var(--gold),0 0 18px #efc16d12}
