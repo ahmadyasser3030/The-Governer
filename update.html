@@ -15,7 +15,7 @@
 </main>
 <script>
 (() => {
-  const release='20261009-r4', status=document.querySelector('#status'), retry=document.querySelector('#retry');
+  const release='20261009-r5', status=document.querySelector('#status'), retry=document.querySelector('#retry');
   const version=worker=>new Promise(resolve=>{
     if(!worker)return resolve(null);
     const channel=new MessageChannel(), timeout=setTimeout(()=>{channel.port1.close();resolve(null);},800);

@@ -1,4 +1,4 @@
-const RELEASE = '20261009-r4';
+const RELEASE = '20261009-r5';
 const CACHE = `governor-shell-${RELEASE}`;
 const FILES = ['index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'profile.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'construction-hero.webp'];
 const urlFor = file => new URL(`./${file}?v=${RELEASE}`, self.registration.scope).href;
