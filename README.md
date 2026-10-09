@@ -14,7 +14,7 @@ The owner enabled free GitHub Pages hosting from `governor-site`. The actual HTT
 
 Run `python3 scripts/package.py` for a static hosting ZIP and a standalone offline HTML copy. No bundler is needed for hosting. Private cloud sync uses the owner's free Supabase project; `connect.html` saves its public connection details on each device. The owner's live laptop-to-phone sync was confirmed by the user, not by supplying an authentication session to this workspace. The original Floot deployment was not modified.
 
-**Privacy:** the website and source are public; personal cloud rows require the owner's login under the supplied row-level rules. The app also stores a local browser copy for offline work. Signing out does not lock, hide or erase that device copy. Use a private browser profile on a device you control. Other users can use the public interface locally or configure their own project; their accounts in the owner's project cannot sync under the owner-email rules.
+**Privacy:** the site and source are public; cloud records require an authenticated account under the installed row-level rules. Existing owner-only cloud sync is retained. Browser workspaces are separated by project/account; signing out hides the account's records and signing back in restores them. Copies are not encrypted, so lock your device. Additional cloud accounts require the optional `multi-user.sql` permissions upgrade in Settings; actual live two-account isolation has not been verified.
 
 See the [short user guide](docs/guide.html), [cloud connection guide](docs/cloud-setup.html), [audit](docs/audit.md), [backup format](docs/data-format.md), [deployment and recovery instructions](docs/deployment.md), [verified free-tier limits](docs/free-tier.md), and [validation evidence](docs/validation.md).
 
@@ -25,3 +25,9 @@ Published at the same website. All 18 core tests and 25 browser workflows passed
 One app with Today, Plans and Library: crown branding, generated local construction hero, up to three daily actions, quick capture, optional timer and check-in, goal lifecycle and retained history, real targets and monthly milestones, weekly/monthly execution chart, active-goal progress chart, calendar scheduling, categorized notes, book reading progress, optional routines, core values and weekly/monthly reviews. Cloud and backup formats remain compatible; no runtime packages, paid services or new cloud setup are required for an already-connected device.
 
 Run `npm run test:gold` for the additional lifecycle, calendar, charts, library, compatibility, backup and mobile/offline workflows. Close all Governor tabs and reopen online after publication to activate the updated offline cache.
+
+## Final handoff integration
+
+The approved dashboard composition now includes the crown, construction hero, duration selector, three priorities, date/progress, four quick actions and exactly two charts from real records. Tasks include durations, deletion confirmation and undo. Plans retains editable targets and history and adds milestone dates/evidence and goal horizons. Library supports tags, goal links and note-to-priority conversion. Second Brain JSON imports map its real tasks/statuses, goals/links, books, routine checks, notes, values and weekly/monthly/daily reviews into editable records; no legacy source is discarded. Undated old completions are excluded from charts.
+
+Run `npm test`, `npm run test:browser`, `npm run test:gold` and `npm run test:handoff`. The new account tests use a simulated service; actual Supabase administration is not available to the coding workspace. See docs/handoff-audit.md for the feature inventory and rollback branches.

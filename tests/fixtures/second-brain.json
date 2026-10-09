@@ -1,0 +1,208 @@
+{
+  "goals": [
+    {
+      "id": 1,
+      "title": "Complete KAITECH BIM diploma and data management work",
+      "area": "Career",
+      "horizon": "90 days",
+      "why": "Build demonstrable digital-construction competence",
+      "target": 100,
+      "progress": 20
+    },
+    {
+      "id": 2,
+      "title": "Develop practical BAUER APM skills",
+      "area": "Career",
+      "horizon": "90 days",
+      "why": "Build credible project execution and management experience",
+      "target": 100,
+      "progress": 10
+    },
+    {
+      "id": 3,
+      "title": "Improve English articulation",
+      "area": "Intellectual",
+      "horizon": "1 year",
+      "why": "Communicate confidently with international professionals",
+      "target": 100,
+      "progress": 0
+    },
+    {
+      "id": 4,
+      "title": "Build consistent calisthenics foundation",
+      "area": "Physical",
+      "horizon": "90 days",
+      "why": "Become stronger, healthier and more capable",
+      "target": 100,
+      "progress": 0
+    },
+    {
+      "id": 5,
+      "title": "Build a reliable closed-loop attention system",
+      "area": "Mental",
+      "horizon": "90 days",
+      "why": "Make deliberate decisions rather than follow every distracting thought",
+      "target": 100,
+      "progress": 0
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "title": "Review KAITECH data management lesson",
+      "area": "KAITECH",
+      "goalId": 1,
+      "due": "2026-10-08",
+      "status": "Done",
+      "priority": "High"
+    },
+    {
+      "id": 12,
+      "title": "Build BAUER project Excel tracker",
+      "area": "BAUER",
+      "goalId": 2,
+      "due": "2026-10-08",
+      "status": "To do",
+      "priority": "High"
+    },
+    {
+      "id": 13,
+      "title": "Record 3-minute English explanation",
+      "area": "English",
+      "goalId": 3,
+      "due": "2026-10-08",
+      "status": "To do",
+      "priority": "Medium"
+    },
+    {
+      "id": 14,
+      "title": "Complete the Why Ladder",
+      "area": "Strategy",
+      "goalId": 5,
+      "due": "2026-10-08",
+      "status": "To do",
+      "priority": "Medium"
+    }
+  ],
+  "habits": [
+    {
+      "id": 21,
+      "title": "Focused study",
+      "target": 5
+    },
+    {
+      "id": 22,
+      "title": "English speaking",
+      "target": 5
+    },
+    {
+      "id": 23,
+      "title": "Workout",
+      "target": 3
+    },
+    {
+      "id": 24,
+      "title": "Read and recall",
+      "target": 4
+    },
+    {
+      "id": 25,
+      "title": "Mindful attention",
+      "target": 5
+    },
+    {
+      "id": 26,
+      "title": "Evening reflection",
+      "target": 5
+    },
+    {
+      "id": 27,
+      "title": "Sleep routine",
+      "target": 6
+    }
+  ],
+  "checks": {
+    "2026-10-08_21": true
+  },
+  "thoughts": [],
+  "books": [
+    {
+      "id": 31,
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "status": "To read",
+      "progress": 27,
+      "notes": ""
+    },
+    {
+      "id": 32,
+      "title": "The 7 Habits of Highly Effective People",
+      "author": "Stephen R. Covey",
+      "status": "Reading",
+      "progress": 0,
+      "notes": ""
+    },
+    {
+      "id": 33,
+      "title": "Thinking in Bets",
+      "author": "Annie Duke",
+      "status": "To read",
+      "progress": 0,
+      "notes": ""
+    }
+  ],
+  "notes": [
+    {
+      "id": 41,
+      "title": "How I learn",
+      "area": "Learning",
+      "body": "Read → close the material → recall from memory → apply to a real task → revisit later."
+    }
+  ],
+  "reviews": [
+    {
+      "id": 71,
+      "kind": "weekly",
+      "date": "2026-10-08",
+      "wins": "Built a quantities sheet",
+      "triggers": "Too many courses",
+      "adjustment": "Use one real project"
+    },
+    {
+      "id": 72,
+      "kind": "daily",
+      "date": "2026-10-08",
+      "wins": "A useful report",
+      "energy": 4,
+      "focus": 3,
+      "drift": 2,
+      "clarity": 4
+    }
+  ],
+  "values": [
+    {
+      "id": 51,
+      "title": "Autonomy",
+      "why": "Ability to make professional and financial choices"
+    },
+    {
+      "id": 52,
+      "title": "Competence",
+      "why": "Become genuinely capable at valuable work"
+    },
+    {
+      "id": 53,
+      "title": "Capability",
+      "why": "Physical, intellectual and communication strength"
+    },
+    {
+      "id": 54,
+      "title": "Stability",
+      "why": "Maintain direction despite uncertainty"
+    }
+  ],
+  "settings": {
+    "name": "My Second Brain",
+    "sprint": "2026-10-08"
+  }
+}

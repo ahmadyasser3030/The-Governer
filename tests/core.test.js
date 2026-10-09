@@ -41,3 +41,20 @@ test('carrying an action keeps its original date and prevents duplicate destinat
 test('execution charts count actual completion dates and reopen removes the count',()=>{
  const s=initialState('2026-09-01');put(s,'tasks','starter-bauer',{done:true,completedAt:'2026-10-09'},'phone');assert.equal(executionDays(s,'2026-10-05',7)[4].count,1);assert.equal(executionDays(s,'2026-09-01',1)[0].count,0);put(s,'tasks','starter-bauer',{done:false,completedAt:''},'phone');assert.equal(executionDays(s,'2026-10-05',7)[4].count,0);
 });
+
+test('Second Brain migration makes goals, notes, books, habits, values and reviews editable without fabricating completions',async()=>{
+ const {readFile}=await import('node:fs/promises');const raw=await readFile(new URL('./fixtures/second-brain.json',import.meta.url),'utf8');
+ const source=JSON.parse(raw),s=importFile(raw,'fixture');
+ const goals=records(s,'goals').filter(g=>g.id.startsWith('old-goals'));
+ assert.equal(goals.length,5);assert.ok(goals.every(g=>g.status==='paused'));assert.equal(activeGoals(s).length,3);
+ const task=records(s,'tasks').find(t=>t.title===source.tasks[0].title);assert.equal(task.done,true);assert.equal(s.goals[task.goal].title,source.goals[0].title);
+ assert.equal(executionDays(s,'2026-10-08',1)[0].count,0,'unknown old completion timestamps must not become chart data');
+ assert.ok(records(s,'notes').some(n=>n.entryType==='book'&&n.author==='Cal Newport'&&n.readingProgress===27));
+ assert.equal(records(s,'notes').filter(n=>n.entryType==='routine').length,7);assert.ok(records(s,'checkins').some(c=>c.kind==='routine'&&c.done));
+ assert.ok(records(s,'notes').some(n=>n.title==='How I learn'&&n.body.startsWith('Read')));
+ assert.ok(records(s,'reviews').some(r=>r.wins==='Built a quantities sheet'&&r.next==='Use one real project'));
+ assert.ok(records(s,'checkins').some(c=>c.note==='A useful report'&&c.energy==='4'));
+ assert.ok(s.settings.plan.values.includes('Autonomy'));assert.equal(s.settings.plan.start,'2026-10-08');
+ const sourceId=records(s,'legacy').find(l=>l.source).source;assert.deepEqual(recoverOriginal(s,sourceId),source);
+ put(s,'tasks',task.id,{title:'My revised task'},'owner',Date.now());assert.equal(mergeStates(s,importFile(raw,'reimport')).tasks[task.id].title,'My revised task');
+});

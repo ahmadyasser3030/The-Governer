@@ -27,20 +27,20 @@ async function configure(page) {
  fs.mkdirSync('test-results',{recursive:true});
  await check('default home shows a concrete primary action and at most three priorities',async()=>{
   await page.goto(BASE);await visible(page,'.hero');
-  assert.ok((await page.locator('.hero h2').innerText()).includes('Write three lines'));
+  assert.ok((await page.locator('.hero .hero-next').innerText()).includes('Write three lines'));
   assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),3);
   await page.screenshot({path:'test-results/tunnel-desktop.png',fullPage:true});
  });
  await check('one-click completion, undo, and reload persistence',async()=>{
-  await page.locator('.hero [data-action=complete]').click();assert.ok((await page.locator('.hero h2').innerText()).includes('remaining Data Management'));
-  await page.locator('#toast [data-action=undo]').click();assert.ok((await page.locator('.hero h2').innerText()).includes('Write three lines'));
-  await page.locator('.hero [data-action=complete]').click();await page.reload();assert.ok((await page.locator('.hero h2').innerText()).includes('remaining Data Management'));
+  await page.locator('.hero [data-action=complete]').click();assert.ok((await page.locator('.hero .hero-next').innerText()).includes('remaining Data Management'));
+  await page.locator('#toast [data-action=undo]').click();assert.ok((await page.locator('.hero .hero-next').innerText()).includes('Write three lines'));
+  await page.locator('.hero [data-action=complete]').click();await page.reload();assert.ok((await page.locator('.hero .hero-next').innerText()).includes('remaining Data Management'));
  });
  await check('capture saves without abandoning the current view or focus timer',async()=>{
   await page.locator('[data-action=timer-toggle]').click();
   await page.locator('#capture-text').fill('Ask about the BAUER reporting cadence');await page.locator('#inline-capture button').click();
   assert.equal(await page.locator('h1').innerText(),'A clear path for today.');assert.equal(await page.locator('#timer-toggle').innerText(),'Pause');
-  await page.locator('#capture-button').click();await page.locator('#modal-capture').fill('Think about the graduation project input schema');await page.getByRole('button',{name:'Capture & return'}).click();assert.equal(await page.locator('dialog[open]').count(),0);
+  await page.locator('[data-action=capture]').click();await page.locator('#modal-capture').fill('Think about the graduation project input schema');await page.getByRole('button',{name:'Capture & return'}).click();assert.equal(await page.locator('dialog[open]').count(),0);
   await page.reload();assert.equal(await page.locator('#timer-toggle').innerText(),'Pause');
  });
  await check('low energy preserves other tasks and restricts focus to one',async()=>{
@@ -51,14 +51,14 @@ async function configure(page) {
  await check('priority editing and concrete additions work',async()=>{
   await page.locator('.priority-list').first().locator('[data-action=edit-task]').first().click();
   await page.locator('#task-action').fill('Validate the first 20 source IDs against the KAITECH schema');await page.getByRole('button',{name:'Save priority'}).click();
-  assert.ok((await page.locator('.hero h2').innerText()).includes('first 20 source IDs'));
+  assert.ok((await page.locator('.hero .hero-next').innerText()).includes('first 20 source IDs'));
   await page.getByRole('button',{name:'＋ Add a priority',exact:true}).click();await page.locator('#task-title').fill('Prepare the BAUER report');await page.locator('#task-action').fill('Update planned and actual quantities in the progress sheet');await page.getByRole('button',{name:'Save priority'}).click();
   assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),3);
  });
  await check('daily check-in, weekly review, milestones and horizon persist',async()=>{
   await page.locator('[data-action=checkin]').click();await page.locator('#checkin-note').fill('Checked IDs. Tomorrow, report the validation results.');await page.getByRole('button',{name:'Save check-in'}).click();
   await page.locator('[data-zone=compass]').click();await page.locator('[data-action=weekly]').first().click();await page.locator('#weekly-wins').fill('Validated a real dataset and learned the report format.');await page.locator('#weekly-obstacles').fill('Too many open tabs.');await page.locator('#weekly-next').fill('One output at a time.');await page.getByRole('button',{name:'Save review'}).click();
-  await page.locator('[data-action=goal]').first().click();await page.locator('#goal-progress').fill('25');await page.locator('#goal-evidence').fill('First project control register is ready.');await page.getByRole('button',{name:'Save milestone'}).click();
+  await page.locator('[data-action=goal]').first().click();await page.locator('#goal-tracking').selectOption('manual');await page.locator('#goal-progress').fill('25');await page.locator('#goal-evidence').fill('First project control register is ready.');await page.getByRole('button',{name:'Save milestone'}).click();
   await page.locator('[data-action=plan]').click();await page.locator('#plan-military').fill('2027-02-01');await page.getByRole('button',{name:'Save direction'}).click();
   await page.reload();assert.ok((await page.locator('main').innerText()).includes('First project control register'));assert.ok((await page.locator('main').innerText()).includes('Feb 1, 2027'));assert.ok((await page.locator('#month-history').innerText()).includes('Checked IDs'));
  });
@@ -82,7 +82,7 @@ async function configure(page) {
   await page.locator('[data-zone=tunnel]').click();await page.screenshot({path:'test-results/tunnel-phone.png',fullPage:true});
  });
  await check('missed days do not make an overdue pileup and rollover retains earlier month',async()=>{
-  await page.evaluate(()=>{const k='governor.os.v1',s=JSON.parse(localStorage.getItem(k));for(const t of Object.values(s.tasks)){t.date='2026-09-01';t.done=false;}localStorage.setItem(k,JSON.stringify(s));});await page.reload();assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),0);assert.ok(!(await page.locator('main').innerText()).includes('overdue'));
+  await page.evaluate(async()=>{const k='governor.os.v1',s=JSON.parse(localStorage.getItem(k));for(const t of Object.values(s.tasks)){t.date='2026-09-01';t.done=false;}const {persistProfile,PROFILE_KEY}=await import('./profile.js');persistProfile(s,localStorage.getItem(PROFILE_KEY));});await page.reload();assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),0);assert.ok(!(await page.locator('main').innerText()).includes('overdue'));
   await page.locator('[data-action=parked]').click();await page.locator('[data-action=bring-task]').first().click();const s=await page.evaluate(()=>JSON.parse(localStorage.getItem('governor.os.v1')));assert.ok(Object.values(s.tasks).some(t=>t.date==='2026-09-01'&&t.paused));assert.equal(await page.locator('.priority-list').first().locator('.priority').count(),1);
  });
  await check('offline reload, completion, capture and backup work without a network',async()=>{

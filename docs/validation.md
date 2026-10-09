@@ -63,3 +63,11 @@ On October 9, 2026 at 09:51 UTC, workflow [37913886569](https://github.com/ahmad
 The fresh `governor-publish-status:governor-gold-check.json` is the direct full-workflow evidence. The older metadata-based verification also subsequently succeeded after request timeouts were added. The recovery downloads are published in the Gold release; Governor.html is 242,523 bytes and the static-site ZIP is approximately 149 KB compressed.
 
 The live public Supabase probe at 09:34 UTC confirmed the publishable key was accepted, email authentication was enabled, the table existed, and anonymous SELECT was denied with HTTP 401 / code 42501. It used limit=0 and read no private records. Owner-authenticated live sync and unauthorized authenticated-user denial were not independently retested. The owner’s previous live laptop-to-phone confirmation remains the available real-account evidence.
+
+## Final handoff checks — October 9, 2026
+
+- 23 core/profile tests: original 18 plus complete Second Brain field migration and four profile preservation/isolation/corruption/partial-write checks.
+- Existing 14 browser and 11 Gold workflows retained. New handoff workflows cover approved composition at 1536px, responsive 360/390/768/1024px, task durations/deletion/undo, focus controls, dated milestone evidence/chart/calendar, tagged goal-linked note conversion without duplication, real Second Brain JSON import/edit/export, and switching two accounts plus two tabs without mixing data (simulated API).
+- Full original Second Brain HTML was audited. A synthetic test fixture based on its starter data checks status=Done, links, reading percentage, habit date checks, values, reviews and source reconstruction. No private owner export was supplied.
+- Live authenticated account separation, actual two-account RLS execution and Supabase migration are unverified. The published database policies are not changed by static deployment. Optional settings setup provides exact SQL, leaving rows and revision checks untouched. Existing owner cloud configuration/session compatibility tested with synthetic fixtures; owner previously reported live sync success.
+- Physical phones, Safari installation, browser storage retention over months and the human 2–5-minute daily-use target are not independently tested.

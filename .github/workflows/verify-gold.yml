@@ -1,4 +1,4 @@
-name: Verify the published Governor Gold app
+name: Verify the final published Governor app
 on:
   push:
     branches: [governor-preview]
@@ -24,6 +24,24 @@ jobs:
             npx playwright install --with-deps chromium
             node --input-type=module -e "import {chromium} from 'playwright'; console.log('GOVERNOR_CHROMIUM='+chromium.executablePath())" >> "$GITHUB_ENV"
           fi
+      - name: Wait until Pages serves this exact tested version
+        timeout-minutes: 6
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs'),base='https://ahmadyasser3030.github.io/The-Governer/';
+            const files=['index.html','style.css','app.js','core.js','migration.js','cloud.js','profile.js','sw.js'];
+            for(let attempt=0;attempt<20;attempt++){
+              try{
+                const matches=await Promise.all(files.map(async file=>{
+                  const r=await fetch(new URL(file,base),{signal:AbortSignal.timeout(10000),cache:'no-store'});
+                  return r.ok && await r.text()===fs.readFileSync(file,'utf8');
+                }));
+                if(matches.every(Boolean)){core.info('All deployed core assets match the checked-out source.');return;}
+              }catch(e){core.info('Waiting for publication: '+e.message);}
+              await new Promise(resolve=>setTimeout(resolve,6000));
+            }
+            throw new Error('Pages is not serving the expected assets. No verification claim will be made.');
       - name: Run all core and actual website workflows
         id: tests
         env:
@@ -32,6 +50,7 @@ jobs:
           npm test
           npm run test:browser
           npm run test:gold
+          npm run test:handoff
       - name: Save the actual website verification evidence
         if: always()
         uses: actions/github-script@v7
@@ -41,7 +60,7 @@ jobs:
           script: |
             const fs=require('node:fs');const {owner,repo}=context.repo;
             const read=p=>fs.existsSync(p)?JSON.parse(fs.readFileSync(p,'utf8')):null;
-            const data={checkedAt:new Date().toISOString(),sourceCommit:context.sha,url:'https://ahmadyasser3030.github.io/The-Governer/',testResult:process.env.TEST_RESULT||'not-run',browserChecks:read('test-results/browser-results.json'),goldChecks:read('test-results/gold-results.json'),privateCloudTest:'Simulated API only; owner previously confirmed live laptop-to-phone sync.',runUrl:`https://github.com/${owner}/${repo}/actions/runs/${context.runId}`};
+            const data={checkedAt:new Date().toISOString(),sourceCommit:context.sha,url:'https://ahmadyasser3030.github.io/The-Governer/',testResult:process.env.TEST_RESULT||'not-run',browserChecks:read('test-results/browser-results.json'),goldChecks:read('test-results/gold-results.json'),handoffChecks:read('test-results/handoff-results.json'),privateCloudTest:'Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.',runUrl:`https://github.com/${owner}/${repo}/actions/runs/${context.runId}`};
             const branch='governor-publish-status',path='governor-gold-check.json';
             for(let attempt=0;attempt<5;attempt++){
               try{let sha;try{sha=(await github.rest.repos.getContent({owner,repo,path,ref:branch})).data.sha;}catch(e){if(e.status!==404)throw e;}

@@ -41,3 +41,9 @@ Goal records add optional scalar status (active, paused, completed, archived, de
 Rescheduling uses `rolledFrom` and `carriedTo` and a deterministic destination ID per original action/date. The earlier dated instance stays saved and stops appearing as an additional parked action. Repeated two-device rescheduling to the same day merges into one destination.
 
 Library entries optionally use entryType note/book/routine. Books store author, readingStatus, pagesRead and pagesTotal. Optional routine configurations use routineTarget; individual dated marks are independent `checkins` with kind routine, routineId and done, using stable IDs. Routine marks are excluded from action charts and ordinary end-of-day check-in counts. Reviews add optional period week/month; plan adds optional values. All fields remain scalar, so exports, validation and the existing cloud JSON table need no SQL migration.
+
+## Final handoff extensions
+
+Schema version and core collection names remain 1. Optional primitive fields include task minutes/legacyCompletion, goal horizon/monthNDate/monthNEvidence, note tags/goal/readingProgress and capture sourceTitle. Second Brain arrays map to editable collections; checks map to routine check-ins. Stable legacy IDs and complete source chunks remain recoverable. Imports lacking real completion timestamps do not create chart history.
+
+`governor.profile.active.v1` names the current local or project/account workspace. `governor.profile.data.v1:<project>|<user>` stores its recoverable validated copy; `governor.os.v1` remains the current compatibility copy. Existing signed-in installs associate their previous data with that user. New sign-ins select a separate profile; unassigned local data must be explicitly exported/imported. Sessions/configuration stay outside exported state. Browser copies are not encrypted.

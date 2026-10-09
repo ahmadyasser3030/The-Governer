@@ -8,8 +8,8 @@ import base64
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT.parent / 'governor-delivery'
 OUTPUT.mkdir(exist_ok=True)
-PUBLIC = ['construction-hero.webp', 'index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html', 'connect.html', 'connect.js', 'setup.sql']
-NAMES = {'core.js':'GovernorCore', 'migration.js':'GovernorMigration', 'cloud.js':'GovernorCloud'}
+PUBLIC = ['construction-hero.webp', 'index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'profile.js', 'multi-user.sql', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html', 'connect.html', 'connect.js', 'setup.sql']
+NAMES = {'core.js':'GovernorCore', 'migration.js':'GovernorMigration', 'cloud.js':'GovernorCloud', 'profile.js':'GovernorProfile'}
 
 def inline_module(file):
     code = (ROOT / file).read_text()
@@ -22,7 +22,7 @@ def inline_module(file):
     if file == 'app.js': return f'(() => {{\n{code}\n}})();'
     return f'const {NAMES[file]} = (() => {{\n{code}\nreturn {{{", ".join(exports)}}};\n}})();'
 
-bundle = '\n'.join(inline_module(file) for file in ['core.js','migration.js','cloud.js','app.js'])
+bundle = '\n'.join(inline_module(file) for file in ['core.js','migration.js','profile.js','cloud.js','app.js'])
 html = (ROOT/'index.html').read_text()
 html = html.replace('<html lang="en">', '<html lang="en" data-portable="true">')
 css=(ROOT/'style.css').read_text().replace('./construction-hero.webp','data:image/webp;base64,'+base64.b64encode((ROOT/'construction-hero.webp').read_bytes()).decode())

@@ -19,10 +19,15 @@ export function saveConfig(url, key) {
   return config;
 }
 export class CloudSync {
-  constructor({getState, acceptState, onStatus}) {
-    this.getState = getState; this.acceptState = acceptState; this.onStatus = onStatus;
+  constructor({getState, acceptState, onStatus, onSessionChange = () => {}}) {
+    this.onSessionChange = onSessionChange; this.getState = getState; this.acceptState = acceptState; this.onStatus = onStatus;
     this.config = loadConfig(); this.busy = false; this.again = false; this.disposed = false;
     try { this.session = JSON.parse(localStorage.getItem(SESSION_KEY)); } catch { this.session = null; }
+  }
+  setSession(session) {
+    this.onSessionChange(session?.user || null, this.config);
+    this.session=session; this.remoteData=null; this.seenRevision=null; this.legacyChecked=false;
+    if(session) localStorage.setItem(SESSION_KEY,JSON.stringify(session)); else localStorage.removeItem(SESSION_KEY);
   }
   status(text, kind = 'local') { if (!this.disposed) this.onStatus(text, kind); }
   async request(path, {method = 'GET', body, auth = true, prefer} = {}) {
@@ -32,7 +37,7 @@ export class CloudSync {
       const response = await fetch(`${this.config.url}${path}`, {method, signal: controller.signal, headers: {apikey: this.config.key, ...(auth && this.session ? {Authorization: `Bearer ${this.session.access_token}`} : {}), 'Content-Type': 'application/json', ...(prefer ? {Prefer: prefer} : {})}, ...(body === undefined ? {} : {body: JSON.stringify(body)})});
       const raw = await response.text(); let data; try { data = raw ? JSON.parse(raw) : null; } catch { throw new Error('Cloud returned an unexpected response. Local data is safe.'); }
       if (!response.ok) {
-        const error = new Error(response.status === 401 ? 'Sign in again to resume sync.' : response.status === 403 ? 'Cloud access was denied. Check your owner email and database setup.' : response.status === 404 ? 'The cloud table is missing. Follow the setup guide.' : 'Cloud request failed. Check your project setup; local data is safe.');
+        const error = new Error(response.status === 401 ? 'Sign in again to resume sync.' : response.status === 403 ? 'Cloud access was denied. Check the account permissions and database setup.' : response.status === 404 ? 'The cloud table is missing. Follow the setup guide.' : 'Cloud request failed. Check your project setup; local data is safe.');
         error.code = response.status; throw error;
       }
       return data;
@@ -47,8 +52,7 @@ export class CloudSync {
   async signInPassword(email, password) {
     const result = await this.request('/auth/v1/token?grant_type=password', {method:'POST',auth:false,body:{email,password}});
     if (!result?.user?.id || !result?.access_token || !result?.refresh_token) throw new Error('Could not verify this sign-in.');
-    this.session = {...result, expires_at: result.expires_at || Date.now()/1000 + result.expires_in};
-    localStorage.setItem(SESSION_KEY, JSON.stringify(this.session));
+    this.setSession({...result, expires_at: result.expires_at || Date.now()/1000 + result.expires_in});
   }
   async acceptLink() {
     const hash = new URLSearchParams(location.hash.slice(1));
@@ -60,8 +64,7 @@ export class CloudSync {
     try {
       const user = await this.request('/auth/v1/user');
       if (!user?.id || !user?.email) throw new Error('Could not verify this sign-in.');
-      this.session.user = {id: user.id, email: user.email};
-      localStorage.setItem(SESSION_KEY, JSON.stringify(this.session));
+      this.setSession({...this.session,user:{id:user.id,email:user.email}});
       return true;
     } catch (error) { this.session = null; localStorage.removeItem(SESSION_KEY); throw error; }
   }
@@ -70,6 +73,7 @@ export class CloudSync {
     if (this.session.expires_at > Date.now() / 1000 + 90) return;
     const next = await this.request('/auth/v1/token?grant_type=refresh_token', {method: 'POST', auth: false, body: {refresh_token: this.session.refresh_token}});
     if (this.disposed) return;
+    if(next?.user?.id !== this.session.user.id) throw new Error('The account changed. Sign in again.');
     this.session = {...next, expires_at: next.expires_at || Date.now() / 1000 + next.expires_in};
     localStorage.setItem(SESSION_KEY, JSON.stringify(this.session));
   }
@@ -110,7 +114,7 @@ export class CloudSync {
           try {
             const old = await this.request(`/rest/v1/governor_state?user_id=eq.${encodeURIComponent(userId)}&select=payload`);
             if (old?.[0]?.payload) this.acceptState(mergeStates(local, importFile(JSON.stringify(old[0].payload), 'legacy-cloud')));
-          } catch (error) { if (![400,404].includes(error.code)) throw error; }
+          } catch (error) { if (![400,403,404].includes(error.code)) throw error; }
           this.legacyChecked = true;
         }
         const merged = current ? mergeStates(local, validateState(current.data)) : validateState(this.getState());
@@ -131,7 +135,7 @@ export class CloudSync {
   }
   async signOut() {
     try { if (this.session && navigator.onLine) await this.request('/auth/v1/logout?scope=local', {method: 'POST'}); } catch { /* Clear local access even if the server is unavailable. */ }
-    this.session = null; localStorage.removeItem(SESSION_KEY); this.status('Saved on this device');
+    this.setSession(null); this.status('Saved on this device');
   }
   dispose() { this.disposed = true; clearTimeout(this.timer); }
 }

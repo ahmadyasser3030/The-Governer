@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: governor-recovery-downloads
+  cancel-in-progress: false
 jobs:
   save-app:
     runs-on: ubuntu-latest
