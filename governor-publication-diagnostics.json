@@ -1,27 +1,81 @@
 {
-  "checkedAt": "2026-10-09T09:39:26.590Z",
-  "sourceCommit": "4b835637a411d8be5b1b44fd136488cdc045b18f",
+  "checkedAt": "2026-10-09T09:41:00.038Z",
+  "sourceCommit": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
   "runs": [
     {
-      "name": "Save the openable Governor app",
-      "sha": "4b835637a411d8be5b1b44fd136488cdc045b18f",
+      "name": "Inspect Governor publication status",
+      "sha": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912665876"
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912835444"
+    },
+    {
+      "name": "Save the openable Governor app",
+      "sha": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912835407"
     },
     {
       "name": "Inspect Governor publication status",
       "sha": "4b835637a411d8be5b1b44fd136488cdc045b18f",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912665984"
+    },
+    {
+      "name": "Save the openable Governor app",
+      "sha": "4b835637a411d8be5b1b44fd136488cdc045b18f",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912665876"
     },
     {
       "name": "Check the live Governor website",
       "sha": "c97208c2739f68b3a3cd6388bba3d4eef9721dd3",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912132474"
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912132474",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Read the website address and check hosted files",
+              "conclusion": null
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": null
+            },
+            {
+              "name": "Prepare the browser",
+              "conclusion": null
+            },
+            {
+              "name": "Test the real website on laptop and phone screens, including offline use",
+              "conclusion": null
+            },
+            {
+              "name": "Save the check result",
+              "conclusion": null
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": null
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "Save the openable Governor app",
@@ -131,20 +185,6 @@
       "status": "completed",
       "conclusion": "success",
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37904800467"
-    },
-    {
-      "name": "Check the supplied public cloud connection",
-      "sha": "9e08a21ac85a333b82cc3ce81e28fee5e8066592",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37904648927"
-    },
-    {
-      "name": "Save the openable Governor app",
-      "sha": "9e08a21ac85a333b82cc3ce81e28fee5e8066592",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37904648833"
     }
   ],
   "pages": {
@@ -168,11 +208,6 @@
         "name": "Governor-website.zip",
         "bytes": 149228,
         "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor-website.zip"
-      },
-      {
-        "name": "Governor.html",
-        "bytes": 242523,
-        "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor.html"
       }
     ]
   }
