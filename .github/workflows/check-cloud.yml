@@ -1,4 +1,5 @@
 name: Check the supplied public cloud connection
+# Recheck after the owner successfully ran the private storage setup.
 on:
   push:
     branches: [governor-preview]
