@@ -57,6 +57,6 @@ The deployed Gold version passed all 25 browser workflows on October 9, 2026; th
 
 ## Final handoff deployment
 
-Use the same governor-site root and GitHub Pages URL. New rollback branches: governor-before-handoff-2026-10-09 (source 6b807c9) and governor-site-before-handoff-2026-10-09 (published 85b7abc). The offline shell now caches profile.js; cache version governor-shell-v3-handoff-20261009. Close all app tabs on a device and reopen online to activate it, without clearing browser data.
+Use the same governor-site root and GitHub Pages URL. New rollback branches: governor-before-handoff-2026-10-09 (source 6b807c9) and governor-site-before-handoff-2026-10-09 (published 71fa07a). The offline shell now caches profile.js; cache version governor-shell-v3-handoff-20261009-r2. Close all app tabs on a device and reopen online to activate it, without clearing browser data.
 
 Publish profile.js and multi-user.sql alongside the existing public files. No database change is part of deployment. Optional multi-user.sql is applied separately by the project owner in Supabase. New account workspaces do not implicitly adopt local-only records; export/import explicitly when moving them.

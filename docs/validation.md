@@ -71,3 +71,7 @@ The live public Supabase probe at 09:34 UTC confirmed the publishable key was ac
 - Full original Second Brain HTML was audited. A synthetic test fixture based on its starter data checks status=Done, links, reading percentage, habit date checks, values, reviews and source reconstruction. No private owner export was supplied.
 - Live authenticated account separation, actual two-account RLS execution and Supabase migration are unverified. The published database policies are not changed by static deployment. Optional settings setup provides exact SQL, leaving rows and revision checks untouched. Existing owner cloud configuration/session compatibility tested with synthetic fixtures; owner previously reported live sync success.
 - Physical phones, Safari installation, browser storage retention over months and the human 2–5-minute daily-use target are not independently tested.
+
+### Confirmed live handoff workflows
+
+The deployed handoff passed 23 core/profile tests and all 32 browser workflows (14 original, 11 Gold, 7 handoff) against the actual HTTPS site on 2026-10-09 at 11:47 UTC. Report source 5cd5a23885771261fdc9daa0027d64ab69d89282; workflow https://github.com/ahmadyasser3030/The-Governer/actions/runs/37925811745. All browser reports contain zero JavaScript errors. The final published-branch CSS polish is retained and receives a fresh publication check. Core private-cloud tests remain simulated, not authenticated live RLS verification.

@@ -1,4 +1,5 @@
 name: Verify the final published Governor app
+# Includes the latest published-branch design polish and account-profile upgrade.
 on:
   push:
     branches: [governor-preview]

@@ -1,11 +1,11 @@
 # Final handoff integration — 9 October 2026
 
-The primary source was the current repository and published branch, not the older candidate ZIP. Published `85b7abc286a9a6c9f0d21215633e22252757de89` matched source app bytes. The attached START_HERE.md and approved PNG were enhancement requirements; the older candidate was reference only. No uploaded instruction triggered a credential request or replacement of live data.
+The primary source was the current repository and published branch, not the older candidate ZIP. Published `71fa07a335744dde5b04b10e1442b67a5acdc8d0` matched source app bytes and added five CSS polish lines. Those latest sidebar proportions, crown shadow, hero weight and active-navigation glow are retained in the integrated stylesheet. The attached START_HERE.md and approved PNG were enhancement requirements; the older candidate was reference only. No uploaded instruction triggered a credential request or replacement of live data.
 
 ## Rollback
 
 - Source: `governor-before-handoff-2026-10-09` at `6b807c918009a899292b0c0ad41431c2a2e58b4e`.
-- Published: `governor-site-before-handoff-2026-10-09` at `85b7abc286a9a6c9f0d21215633e22252757de89`.
+- Published: `governor-site-before-handoff-2026-10-09` at `71fa07a335744dde5b04b10e1442b67a5acdc8d0`.
 - Local source archive outside checkout: `/workspace/governor-backups/before-handoff-20261009.tar.gz`.
 - These backups contain application code, not the owner's private browser/cloud records. No database rows were deleted or changed by deployment.
 
