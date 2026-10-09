@@ -38,6 +38,19 @@ jobs:
               result.anonymousSelectDenied = !table.ok && body?.code === '42501';
               result.note = 'Read-only public checks. No authentication session, personal data, SQL changes, or live device sync were performed.';
             } catch (error) { result.error = error.message; }
+            const site = 'https://ahmadyasser3030.github.io/The-Governer/';
+            for (let attempt=0; attempt<12; attempt++) {
+              try {
+                const checks = await Promise.all(['connect.html','connect.js','setup.sql'].map(async path=>{
+                  const response = await fetch(new URL(path,site),{signal:AbortSignal.timeout(10000)});
+                  const body = await response.text();
+                  return response.ok && (path==='connect.html' ? body.includes('Connect this device') : path==='connect.js' ? body.includes(key) : body.includes('create table if not exists public.governor_data'));
+                }));
+                if (checks.every(Boolean)) { result.setupPageReady=true;result.setupPageUrl=new URL('connect.html',site).href;break; }
+              } catch {}
+              await new Promise(resolve=>setTimeout(resolve,5000));
+            }
+            result.setupPageReady = result.setupPageReady || false;
             const {owner, repo} = context.repo;
             const branch = 'governor-publish-status', path = 'governor-cloud-check.json';
             let sha;
