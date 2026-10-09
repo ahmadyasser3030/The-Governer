@@ -1,20 +1,20 @@
 {
-  "checkedAt": "2026-10-09T09:49:51.773Z",
+  "checkedAt": "2026-10-09T09:50:14.161Z",
   "sourceCommit": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
   "runs": [
-    {
-      "name": "Save the openable Governor app",
-      "sha": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913770890"
-    },
     {
       "name": "Inspect Governor publication status",
       "sha": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
       "status": "in_progress",
       "conclusion": null,
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913770944"
+    },
+    {
+      "name": "Save the openable Governor app",
+      "sha": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913770890"
     },
     {
       "name": "Save the openable Governor app",
@@ -152,6 +152,11 @@
         "name": "Governor-website.zip",
         "bytes": 149228,
         "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor-website.zip"
+      },
+      {
+        "name": "Governor.html",
+        "bytes": 242523,
+        "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor.html"
       }
     ]
   }
