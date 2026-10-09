@@ -3,11 +3,12 @@ from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 import re
 import json
+import base64
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT.parent / 'governor-delivery'
 OUTPUT.mkdir(exist_ok=True)
-PUBLIC = ['index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html', 'connect.html', 'connect.js', 'setup.sql']
+PUBLIC = ['construction-hero.webp', 'index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html', 'connect.html', 'connect.js', 'setup.sql']
 NAMES = {'core.js':'GovernorCore', 'migration.js':'GovernorMigration', 'cloud.js':'GovernorCloud'}
 
 def inline_module(file):
@@ -24,11 +25,12 @@ def inline_module(file):
 bundle = '\n'.join(inline_module(file) for file in ['core.js','migration.js','cloud.js','app.js'])
 html = (ROOT/'index.html').read_text()
 html = html.replace('<html lang="en">', '<html lang="en" data-portable="true">')
-html = html.replace('<link rel="stylesheet" href="./style.css">', f'<style>{(ROOT/"style.css").read_text()}</style>')
+css=(ROOT/'style.css').read_text().replace('./construction-hero.webp','data:image/webp;base64,'+base64.b64encode((ROOT/'construction-hero.webp').read_bytes()).decode())
+html = html.replace('<link rel="stylesheet" href="./style.css">', f'<style>{css}</style>')
 html = html.replace('<script type="module" src="./app.js"></script>', '<script type="module">'+bundle.replace('</script', '<\\/script')+'</script>')
 html = re.sub(r'\s*<link rel="(?:manifest|apple-touch-icon|icon)"[^>]+>', '', html)
 (OUTPUT/'governor-offline.html').write_text(html)
-start = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start your Governor</title><style>body{font:17px Arial;line-height:1.8;max-width:700px;padding:35px;margin:auto;background:#f7f6f2;color:#2d352f}h1{font:36px Georgia}a{color:#385441}li{margin:12px 0}.box{background:#e9eee6;padding:20px;border-radius:12px}</style><h1>Your Governor is saved.</h1><p>A concrete daily plan, a weekly Compass, and a reference Vault. No paid software or AI service required.</p><div class="box"><strong>To try it on your laptop now:</strong><ol><li>Extract this ZIP into a folder.</li><li>Open <a href="governor-offline.html">governor-offline.html</a> in Chrome, Edge or Firefox.</li><li>Edit the starter actions to match your actual work. Export your data from Settings before changing versions or moving devices.</li></ol></div><p>This portable file saves in your browser on this device. It is not already connected to the cloud. Moving the HTML file or using another browser can create a separate storage area; transfer your JSON backup.</p><p>For a phone app icon and cloud sync, upload <strong>governor-site.zip</strong> to a free static host and connect your own free cloud account. <a href="docs/cloud-setup.html">The short setup guide explains it</a>. Your existing website has not been changed.</p><p><a href="docs/guide.html">Read the two-minute user guide</a></p><p>Before military service: keep this folder and a private exported JSON backup in two places. Free cloud services can pause when unused. The portable file needs no network for daily work.</p></html>'''
+start = """<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Governor — Start here</title><style>body{font:17px Arial;line-height:1.8;max-width:700px;padding:35px;margin:auto;background:#0d1011;color:#eee7da}h1{font-size:36px;color:#efc16d}a{color:#efc16d}.box{background:#252118;padding:20px;border-radius:12px}</style><h1>Your Governor is saved.</h1><div class="box"><strong>Your everyday app:</strong><p><a href="https://ahmadyasser3030.github.io/The-Governer/">Open The Governor</a></p><p>Use this same link on your phone and laptop. Close old Governor tabs and reopen online to activate the Gold update. Existing connected browsers keep their sign-in and data.</p></div><p>Today: one next action. Plans: goals, calendar and progress. Library: notes, books and ideas. No paid software or AI service is required.</p><h2>Your recovery copy</h2><p><a href="governor-offline.html">governor-offline.html</a> contains the app files and image for emergency laptop use. Its browser storage is separate from the website. Import your private JSON backup to recover records; this folder does not include your personal data.</p><p>Before a long absence, use Settings → Export backup and keep two private copies. Free cloud projects can pause when unused. Your locally installed app remains usable offline after an online visit; first sign-in and cloud sync need internet.</p><p><a href="docs/guide.html">Two-minute user guide</a></p></html>"""
 (OUTPUT/'START-HERE.html').write_text(start)
 with ZipFile(OUTPUT/'governor-site.zip','w',ZIP_DEFLATED) as z:
     for file in PUBLIC: z.write(ROOT/file,file)

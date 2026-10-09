@@ -38,4 +38,10 @@ After initial caching, the hosted shell and local workflows run offline. First i
 
 ## Preservation and deployment
 
-The existing deployment has not been modified. Source files were saved in the selected checkout; no changes were pushed remotely. Review and publish the candidate separately before replacing any existing site. Real user-data migration requires an export from that site; synthetic preservation tests do not establish that the user's actual data has migrated.
+The Governor site is already live at https://ahmadyasser3030.github.io/The-Governer/. The original Floot app remains untouched. The Gold upgrade reuses the current vanilla JavaScript modules, schema-version-1 storage keys, cloud client and owner-restricted SQL. A pushed safe branch `governor-before-gold-2026-10-09` and a local source archive retain the previous working app. Actual private user data is in the browser and Supabase; the source backup is not a personal-data backup.
+
+## Gold reference comparison — October 9, 2026
+
+The supplied `The_Governor_FINAL_One_Package.zip` was inspected as a design reference. Its bundled app was not substituted for the latest repository. Its hero contained baked-in UI text; a new generated, optimized construction image replaces that asset. Its SQL policies omitted the owner-email restriction and would broaden access when combined with the existing policies; that script was not applied. Existing working cloud.js, setup.sql, connect.js and migration.js are preserved.
+
+The smallest integration keeps Today focused on up to three actions, moves both real-data charts into Plans, adds goal lifecycle and retained history, measurable targets, monthly milestones and a calendar, and groups Library resources by category. The crown, dark surfaces and restrained gold accents follow the provided screenshot. Books, routines, core values and monthly reviews remain optional within the same three zones. No unique legacy category or original field is discarded.

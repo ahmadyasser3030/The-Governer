@@ -1,5 +1,5 @@
 name: Check the supplied public cloud connection
-# Recheck after the owner successfully ran the private storage setup.
+# Recheck anonymous denial without using a private login or retrieving personal records.
 on:
   push:
     branches: [governor-preview]
@@ -22,7 +22,7 @@ jobs:
             const key = code.match(/key:'(sb_publishable_[^']+)'/)?.[1];
             if (!url || !key) throw new Error('A valid public configuration was not found.');
             const headers = {apikey:key};
-            const result = {checkedAt:new Date().toISOString(),projectUrl:url,cloudConnected:false};
+            const result = {checkedAt:new Date().toISOString(),sourceCommit:context.sha,projectUrl:url,privateSessionAvailable:false};
             try {
               const auth = await fetch(`${url}/auth/v1/settings`, {headers,signal:AbortSignal.timeout(15000)});
               result.authStatus = auth.status;

@@ -14,6 +14,9 @@ export function initialState(date = today()) {
   s.goals.bauer = record('bauer', {title: 'BAUER', subtitle: 'Construction & project control', outcome: 'Build a practical project-control pack: progress, cost, risks and a clear weekly report.', milestone: 'Month 1: understand the project → Month 2: build a control pack → Month 3: present it', progress: 0, evidence: '', active: true});
   s.goals.kaitech = record('kaitech', {title: 'KAITECH', subtitle: 'Data Management & graduation project', outcome: 'Finish the Data Management module and submit a usable, documented graduation-project deliverable.', milestone: 'Month 1: map requirements → Month 2: build & validate → Month 3: submit & explain', progress: 0, evidence: '', active: true});
   s.goals.capacity = record('capacity', {title: 'Personal capacity', subtitle: 'Strength, sleep & attention', outcome: 'Find a sustainable training, sleep and focus routine that holds up during demanding weeks.', milestone: 'Month 1: find a baseline → Month 2: make it consistent → Month 3: prepare a maintenance routine', progress: 0, evidence: '', active: true});
+  Object.assign(s.goals.bauer,{status:'active',tracking:'manual',target:0,current:0,unit:'deliverables',deadline:'',nextAction:'Write three lines: progress this week, one risk, and the next site action.',month1:'Understand the site workflow and agree the report format.',month2:'Build a quantities, progress, cost and risk control pack.',month3:'Present a clear project update with supporting evidence.'});
+  Object.assign(s.goals.kaitech,{status:'active',tracking:'manual',target:0,current:0,unit:'deliverables',deadline:'',nextAction:'List the remaining Data Management deliverables. Start the smallest unfinished part.',month1:'Map requirements, source data and the graduation-project scope.',month2:'Build and validate the Data Management and BIM deliverables.',month3:'Submit documented outputs and explain the validation results.'});
+  Object.assign(s.goals.capacity,{status:'active',tracking:'manual',target:0,current:0,unit:'sessions',deadline:'',nextAction:'Take a 20-minute walk or do your planned training. Choose a bedtime for tonight.',month1:'Find a sustainable strength, sleep and recovery baseline.',month2:'Maintain a realistic training and attention routine.',month3:'Prepare a minimum routine for military service or busy weeks.'});
   s.settings.plan = record('plan', {start: date, horizon: '', military: '', why1: '', why3: '', why5: ''});
   s.settings.mode = record('mode', {value: 'normal'});
   s.tasks['starter-bauer'] = record('starter-bauer', {title: 'Prepare a BAUER project update', action: 'Write three lines: progress this week, one risk, and the next site action.', goal: 'bauer', date, done: false, order: 0, paused: false});
@@ -32,7 +35,10 @@ export function initialState(date = today()) {
     ['fitness-plan','Mind & capacity','Train sustainably','Use a routine suited to your current level: two or three short strength sessions each week, easy walking and recovery. Track evidence that matters to you, such as exercise quality or sleep, in the weekly review. Adjust for injuries and your own needs.'],
     ['reading','Books, history & economy','Read to change one decision','Keep one active book or topic. After a short reading session, write one idea and one way to use it. For history or economics, ask what caused the event, who faced which incentives, and what evidence supports the explanation.'],
     ['mentors','Ideas for later','Use inspiration without adding more tracks','Mo Moshrif: connect 1-, 3- and 5-year goals to a personal why. Mohamed Radwan, Eslam Daghash and Simon Squibb: save a specific lesson and test one useful action. Eileen Gu / Bassem Youssef: study one clear explanation. Ian Barseagle: use inspiration while training at your own level.'],
-    ['military','Mind & capacity','Before and during military service','Set a planning horizon in the Compass when you know more. Before departure, export a backup and prepare one maintenance action for learning, one for movement and one for staying in touch. Use maintenance mode during constrained weeks; revise the plan when reality changes.']
+    ['military','Mind & capacity','Before and during military service','Set a planning horizon in the Compass when you know more. Before departure, export a backup and prepare one maintenance action for learning, one for movement and one for staying in touch. Use maintenance mode during constrained weeks; revise the plan when reality changes.'],
+    ['german-practice','German','Learn German through one useful situation','Pick a practical situation, such as introducing your work or asking a site question. Save five useful phrases, listen to their pronunciation, and practise a short exchange. Keep this optional; add a learning goal only when your main priorities have room.'],
+    ['finance-purchases','Finance & purchases','Make a purchase decision before spending','Write the item, price, purpose, alternatives and earliest sensible purchase date. Compare it with your available budget and near-term commitments. Keep financial notes private. This is a reference for decisions, not another daily habit.'],
+    ['recovery-baseline','Fitness & recovery','Build capacity that lasts','Choose two or three sustainable strength sessions per week, easy walking, and a consistent sleep opportunity. Record a real baseline such as comfortable pull-ups, pain-free exercise, or average bedtime. Use your weekly review to adjust; lower commitments during heavy coursework or military preparation.']
   ];
   for (const [id, category, title, body] of resources) s.notes[id] = record(id, {title, category, body, url: '', archived: false});
   return s;
@@ -56,6 +62,9 @@ export function validateState(value) {
       if (col === 'captures' && typeof item.text !== 'string') throw new Error('Invalid thought.');
       if (col === 'notes' && (typeof item.title !== 'string' || typeof item.body !== 'string' || typeof item.category !== 'string' || typeof item.url !== 'string')) throw new Error('Invalid library entry.');
       if (col === 'goals' && (typeof item.title !== 'string' || typeof item.subtitle !== 'string' || typeof item.outcome !== 'string' || typeof item.milestone !== 'string' || typeof item.evidence !== 'string' || !Number.isFinite(item.progress) || item.progress < 0 || item.progress > 100)) throw new Error('Invalid outcome.');
+      if (col === 'goals' && item.status !== undefined && !['active','paused','archived','completed','deleted'].includes(item.status)) throw new Error('Invalid goal status.');
+      if (col === 'goals' && item.tracking !== undefined && !['manual','target','milestones'].includes(item.tracking)) throw new Error('Invalid goal measurement.');
+      if (col === 'goals' && ['target','current'].some(k=>item[k]!==undefined && (!Number.isFinite(item[k]) || item[k]<0))) throw new Error('Invalid measurable target.');
       if (col === 'reviews' && (typeof item.date !== 'string' || typeof item.wins !== 'string' || typeof item.obstacles !== 'string' || typeof item.next !== 'string')) throw new Error('Invalid review.');
       if (col === 'checkins' && (typeof item.date !== 'string' || typeof item.note !== 'string' || typeof item.energy !== 'string')) throw new Error('Invalid check-in.');
       if (col === 'legacy' && (typeof item.title !== 'string' || typeof item.category !== 'string' || typeof item.body !== 'string')) throw new Error('Invalid preserved record.');
@@ -82,7 +91,66 @@ export function records(state, col) { return Object.values(state[col]).filter(x 
 export function dailyTasks(state, date = today()) { return records(state, 'tasks').filter(t => t.date === date).sort((a, b) => (a.order || 0) - (b.order || 0) || a.updatedAt - b.updatedAt); }
 export function taskLimit(state) { return state.settings.mode?.value === 'normal' ? 3 : 1; }
 export function rolloverCandidates(state, date = today()) { return records(state, 'tasks').filter(t => t.date < date && !t.done && !t.paused).sort((a, b) => b.date.localeCompare(a.date)); }
-export function activeGoals(state) { return records(state, 'goals').filter(g => g.active).slice(0, 3); }
+export function goalStatus(goal) { return goal.deleted ? 'deleted' : goal.status || (goal.archived ? 'archived' : goal.active ? 'active' : 'paused'); }
+export function activeGoals(state) { return records(state, 'goals').filter(g => goalStatus(g) === 'active'); }
+export function goalProgress(goal) {
+  if (goal.tracking === 'target' && goal.target > 0) return Math.min(100, Math.max(0, Math.round(100 * (goal.current || 0) / goal.target)));
+  if (goal.tracking === 'milestones') {
+    const months = [1,2,3].filter(n => goal[`month${n}`]?.trim());
+    return months.length ? Math.round(100 * months.filter(n => goal[`month${n}Done`]).length / months.length) : 0;
+  }
+  return Math.min(100, Math.max(0, Number(goal.progress) || 0));
+}
+function snapshotGoal(state, goal, device) {
+  const group = `goal-history-${encodeURIComponent(goal.id)}-${goal.updatedAt}-${encodeURIComponent(goal.device)}`;
+  const body = JSON.stringify(goal), parts = Math.ceil(body.length / 80000) || 1;
+  for (let part = 0; part < parts; part++) {
+    const id = `${group}-${part}`;
+    if (state.legacy[id]) continue;
+    put(state, 'legacy', id, {title:goal.title, category:'Goal history', kind:'goal-history', goalId:goal.id, historyId:group, part, parts, date:today(), body:body.slice(part*80000,(part+1)*80000)}, device);
+  }
+}
+export function saveGoal(state, id, values, device, now = Date.now()) {
+  if (state.goals[id]) snapshotGoal(state, state.goals[id], device);
+  const next = {...state.goals[id], ...values};
+  next.status = values.status || goalStatus(next);
+  next.active = next.status === 'active' && !next.deleted;
+  next.progress = goalProgress(next);
+  const goal = put(state,'goals',id,next,device,now);
+  snapshotGoal(state,goal,device);
+  return goal;
+}
+export function goalHistory(state, id) {
+  const groups = new Map();
+  for (const item of records(state,'legacy').filter(x=>x.kind==='goal-history' && x.goalId===id)) {
+    if (!groups.has(item.historyId)) groups.set(item.historyId,[]);
+    groups.get(item.historyId).push(item);
+  }
+  return [...groups.values()].flatMap(parts=>{
+    parts.sort((a,b)=>a.part-b.part);
+    if(parts.length!==parts[0].parts) return [];
+    try { return [JSON.parse(parts.map(x=>x.body).join(''))]; } catch { return []; }
+  }).sort((a,b)=>b.updatedAt-a.updatedAt || b.device.localeCompare(a.device));
+}
+export function executionDays(state, start, count) {
+  const days=Array.from({length:count},(_,i)=>({date:addDays(start,i),count:0}));
+  const byDate=new Map(days.map(day=>[day.date,day]));
+  for(const task of records(state,'tasks')) {
+    if(!task.done) continue;
+    const date=task.completedAt || task.date;
+    if(byDate.has(date)) byDate.get(date).count++;
+  }
+  return days;
+}
+export function carryTask(state, id, date, device, values={}) {
+  const task=state.tasks[id];
+  if(!task || task.deleted) throw new Error('This priority is no longer available.');
+  if(task.date===date) return put(state,'tasks',id,{...values,paused:false},device);
+  const root=task.rolledFrom || id, destination=`carry-${root}-${date}`;
+  if(state.tasks[destination] && !state.tasks[destination].deleted) throw new Error('This action already has an entry for that day. Edit that entry instead.');
+  put(state,'tasks',id,{paused:!task.done,carriedTo:destination},device);
+  return put(state,'tasks',destination,{...task,...values,date,rolledFrom:root,carriedTo:'',done:false,completedAt:'',paused:false},device);
+}
 export function put(state, col, id, values, device, now = Date.now()) {
   // A monotonic logical timestamp prevents clock changes from resurrecting old edits.
   const maxTime = Math.max(0, ...COLLECTIONS.flatMap(k => Object.values(state[k]).map(x => x.updatedAt)));

@@ -1,5 +1,5 @@
 name: Check the live Governor website
-# Recheck after the owner enabled branch-based Pages hosting.
+# Verify the published Gold assets and all 25 browser workflows.
 on:
   workflow_call:
   push:
@@ -20,6 +20,7 @@ jobs:
         with:
           script: |
             const {owner, repo} = context.repo;
+            const expectedApp = require('node:fs').readFileSync('app.js','utf8');
             const repository = (await github.rest.repos.get({owner, repo})).data;
             core.setOutput('private', String(repository.private));
             let site;
@@ -32,13 +33,16 @@ jobs:
             core.setOutput('url', site.html_url);
             core.setOutput('source_branch', site.source?.branch || '');
             core.setOutput('build_status', site.status || '');
-            for (let attempt = 0; attempt < 6; attempt++) {
+            for (let attempt = 0; attempt < 24; attempt++) {
               try {
                 const response = await fetch(site.html_url);
                 const html = await response.text();
                 const app = await fetch(new URL('app.js', site.html_url));
                 const worker = await fetch(new URL('sw.js', site.html_url));
-                if (response.ok && app.ok && worker.ok && html.includes('id="main"')) {
+                const servedApp=await app.text();
+                const servedWorker=await worker.text();
+                const hero=await fetch(new URL('construction-hero.webp',site.html_url));
+                if (response.ok && app.ok && worker.ok && hero.ok && servedApp===expectedApp && servedWorker.includes('governor-shell-v2-gold-20261009') && html.includes('THE GOVERNOR')) {
                   core.setOutput('ready', 'true');
                   return;
                 }
@@ -62,7 +66,9 @@ jobs:
         if: steps.website.outputs.ready == 'true'
         env:
           GOVERNOR_TEST_URL: ${{ steps.website.outputs.url }}
-        run: npm run test:browser
+        run: |
+          npm run test:browser
+          npm run test:gold
       - name: Save the check result
         if: always()
         uses: actions/github-script@v7
@@ -82,6 +88,8 @@ jobs:
             const path = 'governor-website-check.json';
             const data = {
               checkedAt: new Date().toISOString(),
+              sourceCommit: context.sha,
+              edition: 'Gold',
               url: process.env.SITE_URL || null,
               ready: process.env.SITE_READY === 'true',
               repositoryPrivate: process.env.SITE_PRIVATE === 'true',
@@ -90,7 +98,8 @@ jobs:
               problem: process.env.SITE_PROBLEM || null,
               browserResult: process.env.BROWSER_RESULT || 'not-started',
               browserChecks: fs.existsSync('test-results/browser-results.json') ? JSON.parse(fs.readFileSync('test-results/browser-results.json', 'utf8')) : null,
-              cloudConnected: false,
+              goldChecks: fs.existsSync('test-results/gold-results.json') ? JSON.parse(fs.readFileSync('test-results/gold-results.json','utf8')) : null,
+              privateCloudTest: 'No private session available. Existing live sync was previously confirmed by the owner.',
               runUrl: `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`
             };
             let sha;

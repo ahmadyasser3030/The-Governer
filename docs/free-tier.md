@@ -5,8 +5,7 @@ Checked October 8, 2026 against the providers' official documentation repositori
 | Component | Published free allowance | Governor uses |
 | --- | --- | --- |
 | Supabase | Two free projects; 500 MB database per project; 5 GB egress; 50,000 monthly active users | One project, one user, one JSON row. No file storage, AI, Functions, Realtime or paid add-ons. |
-| Cloudflare Pages | 500 builds/month, 20,000 files/site, 25 MiB maximum per asset | 13 static files, approximately 120 KB in total; no server functions. |
-| GitHub Pages | 1 GB published site; soft 100 GB/month bandwidth limit; free availability depends on repository/account type | The same small static site, manually published after review. Public source is usually required on GitHub Free. |
+| GitHub Pages | 1 GB published site; soft 100 GB/month bandwidth limit; free availability depends on repository/account type | 17 public static assets, approximately 255 KB, served from governor-site after tests. Public source is usually required on GitHub Free. |
 
 Sources retrieved directly over verified HTTPS:
 

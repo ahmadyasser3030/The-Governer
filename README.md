@@ -17,3 +17,9 @@ Run `python3 scripts/package.py` for a static hosting ZIP and a standalone offli
 **Privacy:** the website and source are public; personal cloud rows require the owner's login under the supplied row-level rules. The app also stores a local browser copy for offline work. Signing out does not lock, hide or erase that device copy. Use a private browser profile on a device you control. Other users can use the public interface locally or configure their own project; their accounts in the owner's project cannot sync under the owner-email rules.
 
 See the [short user guide](docs/guide.html), [cloud connection guide](docs/cloud-setup.html), [audit](docs/audit.md), [backup format](docs/data-format.md), [deployment and recovery instructions](docs/deployment.md), [verified free-tier limits](docs/free-tier.md), and [validation evidence](docs/validation.md).
+
+## Gold Edition
+
+One app with Today, Plans and Library: crown branding, generated local construction hero, up to three daily actions, quick capture, optional timer and check-in, goal lifecycle and retained history, real targets and monthly milestones, weekly/monthly execution chart, active-goal progress chart, calendar scheduling, categorized notes, book reading progress, optional routines, core values and weekly/monthly reviews. Cloud and backup formats remain compatible; no runtime packages, paid services or new cloud setup are required for an already-connected device.
+
+Run `npm run test:gold` for the additional lifecycle, calendar, charts, library, compatibility, backup and mobile/offline workflows. Close all Governor tabs and reopen online after publication to activate the updated offline cache.

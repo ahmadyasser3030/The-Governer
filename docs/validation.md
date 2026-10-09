@@ -2,7 +2,7 @@
 
 Tests ran in the actual cloud workspace using Node 24, Python 3 and system Chromium with Playwright. The report below distinguishes verified local behavior from external work still required.
 
-On October 9, 2026, all 14 browser workflows also passed against the actual deployed HTTPS site, https://ahmadyasser3030.github.io/The-Governer/, in a GitHub Actions browser. The result reported `ready: true`, source branch `governor-site`, build status `built`, zero browser errors, and successful mobile and offline checks. Cloud tests in that run still used a simulated API; the user's live Supabase project has not been connected.
+On October 9, 2026, all 14 browser workflows also passed against the actual deployed HTTPS site, https://ahmadyasser3030.github.io/The-Governer/, in a GitHub Actions browser. The result reported `ready: true`, source branch `governor-site`, build status `built`, zero browser errors, and successful mobile and offline checks. Cloud tests in that run used a simulated API. The owner subsequently connected and confirmed live sync, as described below.
 
 **Later owner verification on October 9:** the owner supplied a public project configuration, reported the private SQL setup succeeded, created an app-authentication user, and showed a signed-in laptop settings screen with no displayed sync error. After capturing a test item on the laptop and connecting the phone, the owner reported that it synced. This confirms the reported live laptop-to-phone workflow. It does not independently validate unauthorized-user denial, reverse-direction live sync or offline reopening on the owner's actual phone. The public connection key was separately accepted by the project's live auth settings endpoint. The older `governor-cloud-check.json` predates SQL setup and is stale.
 
@@ -42,3 +42,16 @@ Screenshots and machine-readable synthetic results are in ignored `test-results/
 - Direct `file://` opening of the portable HTML: the cloud-managed browser blocks local-file navigation. Its embedded code can be exercised through a local server with networking disabled after loading; this is distinct from testing a user's laptop file-opening policy.
 
 The new website is published and tested. The owner connected their own project and confirmed live laptop-to-phone sync. Environment snapshot publication is separate from website deployment.
+
+## Gold upgrade — October 9, 2026
+
+- 18 core tests passed, including concurrent goal-version retention, measurable and milestone progress, deterministic rollover identities, actual completion dates and reopen counts.
+- All 14 existing browser regression workflows passed after the upgrade. Their cloud cases use a simulated Supabase API with two independent browser contexts, offline changes and an injected revision race.
+- 11 additional Gold workflows passed: generated hero/crown/assets; goal create/targets; pause/archive/reactivate/complete/delete confirmation and undo/history; dated calendar scheduling/rescheduling; weekly/monthly charts reacting to completion/reopen; book page tracking and note deletion undo; dated optional routines excluded from action statistics; monthly review/values/global search/guide; full backup round trip of extended records; 360px layouts and network-disabled hero/capture/reload; old schema, edited note and connection/session compatibility fixtures.
+- The packaged website is separately exercised at `/The-Governer/`, checking the actual deployment subpath and offline cache asset resolution.
+- The portable Gold HTML embeds the optimized hero and scripts/styles. Completion, capture and goal creation worked after networking was disabled, with zero external asset requests. This tests embedded operation via an internal HTTP server; direct file-opening browser policies remain untested.
+- Fast-input testing also exposed a delayed modal-focus race; modal focus is now synchronous so it cannot steal typing after a form opens.
+- The deletion-undo test found that a tombstone flag could remain on a restored note. Undo now explicitly clears that flag, and the test verifies restoration.
+- Existing cloud.js, migration.js, setup.sql and public connection details are unchanged. No new SQL setup or sign-in is required for existing connected browsers. Storage keys and schema version remain unchanged. Fixture tests verify compatibility; actual owner records and private login sessions were not supplied to this workspace.
+
+The GitHub Actions live-site report is `governor-publish-status:governor-website-check.json`. It compares deployed app.js with the source commit and verifies the Gold cache and hero before running the 25 browser workflows. Do not infer success from deployment alone; check the sourceCommit, browserResult and goldChecks in the fresh report. Live owner-authenticated cross-device behavior, unauthorized authenticated-user RLS denial and actual Safari/Android OS behavior cannot be independently verified without account/device access. The owner’s earlier successful live-sync report is separate from simulated automated evidence.

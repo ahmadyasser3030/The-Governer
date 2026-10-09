@@ -33,3 +33,11 @@ Imports validate structure and size before mutation, download a pre-import backu
 Authentication sessions, public cloud connection settings, timer state and capture drafts are stored outside the restorable data document. New sign-in passwords are never persisted. Exported original legacy sources intentionally preserve all fields present in that source; review them before sharing.
 
 The hosted app cannot read browser storage belonging to another website. Export JSON on the old site and import it here. Automatic migration applies only when `governor-data` exists in this app's origin. Existing V2 cloud payloads are read only when the new table is empty and the same project/account is connected; the old cloud table is never written by this version.
+
+## Gold extension (schema remains 1)
+
+Goal records add optional scalar status (active, paused, completed, archived, deleted), tracking (manual, target, milestones), current/target/unit, nextAction, deadline and month1–3/month1Done–3Done. Existing active/progress fields continue to work. Editing saves independent original and revised snapshots as chunked `legacy` records with kind `goal-history`. This preserves both sides of concurrent goal edits even when the current goal resolves to the later version. Deletion is a tombstone; earlier versions and linked tasks remain.
+
+Rescheduling uses `rolledFrom` and `carriedTo` and a deterministic destination ID per original action/date. The earlier dated instance stays saved and stops appearing as an additional parked action. Repeated two-device rescheduling to the same day merges into one destination.
+
+Library entries optionally use entryType note/book/routine. Books store author, readingStatus, pagesRead and pagesTotal. Optional routine configurations use routineTarget; individual dated marks are independent `checkins` with kind routine, routineId and done, using stable IDs. Routine marks are excluded from action charts and ordinary end-of-day check-in counts. Reviews add optional period week/month; plan adds optional values. All fields remain scalar, so exports, validation and the existing cloud JSON table need no SQL migration.
