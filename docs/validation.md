@@ -4,6 +4,8 @@ Tests ran in the actual cloud workspace using Node 24, Python 3 and system Chrom
 
 On October 9, 2026, all 14 browser workflows also passed against the actual deployed HTTPS site, https://ahmadyasser3030.github.io/The-Governer/, in a GitHub Actions browser. The result reported `ready: true`, source branch `governor-site`, build status `built`, zero browser errors, and successful mobile and offline checks. Cloud tests in that run still used a simulated API; the user's live Supabase project has not been connected.
 
+**Later owner verification on October 9:** the owner supplied a public project configuration, reported the private SQL setup succeeded, created an app-authentication user, and showed a signed-in laptop settings screen with no displayed sync error. After capturing a test item on the laptop and connecting the phone, the owner reported that it synced. This confirms the reported live laptop-to-phone workflow. It does not independently validate unauthorized-user denial, reverse-direction live sync or offline reopening on the owner's actual phone. The public connection key was separately accepted by the project's live auth settings endpoint. The older `governor-cloud-check.json` predates SQL setup and is stale.
+
 ## Verified
 
 - 14 data-model tests: seed priorities, exact JSON round trip, independent-device merge, deterministic same-item conflicts, tombstones, monotonic clocks, non-punitive missed days, energy modes, calendar boundaries, malformed-backup rejection, full legacy field retention, stable repeated imports, malformed legacy categories and multi-chunk source reconstruction.
@@ -32,11 +34,11 @@ Screenshots and machine-readable synthetic results are in ignored `test-results/
 
 ## Not yet verified or performed
 
-- Live Supabase sign-in, SQL execution, unauthorized-user access denial, or phone/laptop sync against the user's project. Cloud API responses were simulated; they do not prove live cloud readiness.
+- Independently agent-verified live SQL/authentication, unauthorized-user access denial or reverse-direction phone/laptop sync. The owner confirmed applying SQL, signing in and receiving the laptop's test capture on the phone; no private user session was supplied to the workspace. Earlier simulated cloud tests are separate evidence.
 - Actual Safari/iPhone and Android installation or OS storage retention during long absences.
 - Replacement of the original Floot app. The new candidate is online separately; its source and openable laptop download are saved on GitHub.
 - Actual personal-data migration from Floot or another website.
 - Permanent free-provider availability or guarantees against project pausing.
 - Direct `file://` opening of the portable HTML: the cloud-managed browser blocks local-file navigation. Its embedded code can be exercised through a local server with networking disabled after loading; this is distinct from testing a user's laptop file-opening policy.
 
-The new website is published and tested. Live private sync requires the user's project connection and account setup. Environment snapshot publication is separate from website deployment.
+The new website is published and tested. The owner connected their own project and confirmed live laptop-to-phone sync. Environment snapshot publication is separate from website deployment.
