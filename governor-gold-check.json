@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-09T11:50:15.149Z",
-  "sourceCommit": "9f11db86f707e7f4e0ddbefe4a6945a1efb9e060",
+  "checkedAt": "2026-10-09T12:18:37.230Z",
+  "sourceCommit": "3cc3ff4eff9a792d3485f7e5dcb6295d08b2bfa9",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "testResult": "success",
   "browserChecks": {
-    "testedAt": "2026-10-09T11:49:48.176Z",
+    "testedAt": "2026-10-09T12:17:57.951Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -26,7 +26,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T11:49:55.359Z",
+    "testedAt": "2026-10-09T12:18:05.635Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -45,7 +45,7 @@
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
   "handoffChecks": {
-    "testedAt": "2026-10-09T11:50:14.924Z",
+    "testedAt": "2026-10-09T12:18:28.214Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "approved dashboard composition, real empty charts and responsive screenshots",
@@ -59,6 +59,19 @@
     "errors": [],
     "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
   },
+  "updateChecks": {
+    "testedAt": "2026-10-09T12:18:37.075Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "reproduces old cream cache mixed with new crown HTML on the real Pages subpath",
+      "safe updater replaces stale worker with another old tab open and preserves every saved record and login",
+      "upgraded mobile app saves offline edits and reopens with its gold shell and hero",
+      "normal reopening also upgrades the previous Gold cache without needing the helper",
+      "published update link opens the verified gold edition, then works offline"
+    ],
+    "errors": [],
+    "upgradeFixtures": "Actual earlier cream and Gold Git files, synthetic private records/session; no real account credentials."
+  },
   "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37926027033"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37929011474"
 }
