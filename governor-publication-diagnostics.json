@@ -1,19 +1,47 @@
 {
-  "checkedAt": "2026-10-09T09:41:00.038Z",
-  "sourceCommit": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
+  "checkedAt": "2026-10-09T09:49:51.773Z",
+  "sourceCommit": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
   "runs": [
+    {
+      "name": "Save the openable Governor app",
+      "sha": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913770890"
+    },
+    {
+      "name": "Inspect Governor publication status",
+      "sha": "c1d8087ce17f4c247523fe77fa65bfe8e6c2c9fa",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913770944"
+    },
+    {
+      "name": "Save the openable Governor app",
+      "sha": "5ceee04275d2ab5c292a22ad297aebb1d82220bf",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913138492"
+    },
+    {
+      "name": "Check the live Governor website",
+      "sha": "5ceee04275d2ab5c292a22ad297aebb1d82220bf",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913138539"
+    },
     {
       "name": "Inspect Governor publication status",
       "sha": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912835444"
     },
     {
       "name": "Save the openable Governor app",
       "sha": "9ff979e272e33d3c000e1daee417dc4dbe806d62",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912835407"
     },
     {
@@ -31,53 +59,6 @@
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912665876"
     },
     {
-      "name": "Check the live Governor website",
-      "sha": "c97208c2739f68b3a3cd6388bba3d4eef9721dd3",
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912132474",
-      "jobs": [
-        {
-          "name": "check",
-          "conclusion": null,
-          "steps": [
-            {
-              "name": "Set up job",
-              "conclusion": "success"
-            },
-            {
-              "name": "Run actions/checkout@v4",
-              "conclusion": "success"
-            },
-            {
-              "name": "Read the website address and check hosted files",
-              "conclusion": null
-            },
-            {
-              "name": "Run actions/setup-node@v4",
-              "conclusion": null
-            },
-            {
-              "name": "Prepare the browser",
-              "conclusion": null
-            },
-            {
-              "name": "Test the real website on laptop and phone screens, including offline use",
-              "conclusion": null
-            },
-            {
-              "name": "Save the check result",
-              "conclusion": null
-            },
-            {
-              "name": "Post Run actions/checkout@v4",
-              "conclusion": null
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "Save the openable Governor app",
       "sha": "c97208c2739f68b3a3cd6388bba3d4eef9721dd3",
       "status": "completed",
@@ -90,26 +71,38 @@
           "steps": [
             {
               "name": "Set up job",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:26Z",
               "conclusion": "success"
             },
             {
               "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:27Z",
               "conclusion": "success"
             },
             {
               "name": "Package the app",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:28Z",
               "conclusion": "success"
             },
             {
               "name": "Save the Gold app and recovery downloads",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:28Z",
               "conclusion": "failure"
             },
             {
               "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:31Z",
               "conclusion": "success"
             },
             {
               "name": "Complete job",
+              "status": "completed",
+              "startedAt": "2026-10-09T09:34:32Z",
               "conclusion": "success"
             }
           ]
@@ -124,67 +117,18 @@
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912132670"
     },
     {
+      "name": "Check the live Governor website",
+      "sha": "c97208c2739f68b3a3cd6388bba3d4eef9721dd3",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37912132474"
+    },
+    {
       "name": "Save the openable Governor app",
       "sha": "dee748d48875dcd51fb3f105188c6847f1bad652",
       "status": "completed",
       "conclusion": "success",
       "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37907533215"
-    },
-    {
-      "name": "Save the openable Governor app",
-      "sha": "48feadd22e44be29b65755fb6ba6f2cd944ca56a",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37905333588"
-    },
-    {
-      "name": "Check the supplied public cloud connection",
-      "sha": "48feadd22e44be29b65755fb6ba6f2cd944ca56a",
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37905333715",
-      "jobs": [
-        {
-          "name": "check",
-          "conclusion": "failure",
-          "steps": [
-            {
-              "name": "Set up job",
-              "conclusion": "success"
-            },
-            {
-              "name": "Run actions/checkout@v4",
-              "conclusion": "success"
-            },
-            {
-              "name": "Check public configuration without signing in or reading personal records",
-              "conclusion": "failure"
-            },
-            {
-              "name": "Post Run actions/checkout@v4",
-              "conclusion": "success"
-            },
-            {
-              "name": "Complete job",
-              "conclusion": "success"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Check the supplied public cloud connection",
-      "sha": "c9804c6a6d72bdb45d234e4c254058679309fe01",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37904800518"
-    },
-    {
-      "name": "Save the openable Governor app",
-      "sha": "c9804c6a6d72bdb45d234e4c254058679309fe01",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37904800467"
     }
   ],
   "pages": {
