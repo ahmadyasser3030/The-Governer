@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-09T11:47:45.255Z",
-  "sourceCommit": "5cd5a23885771261fdc9daa0027d64ab69d89282",
+  "checkedAt": "2026-10-09T11:50:15.149Z",
+  "sourceCommit": "9f11db86f707e7f4e0ddbefe4a6945a1efb9e060",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "testResult": "success",
   "browserChecks": {
-    "testedAt": "2026-10-09T11:47:16.600Z",
+    "testedAt": "2026-10-09T11:49:48.176Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -26,7 +26,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T11:47:24.271Z",
+    "testedAt": "2026-10-09T11:49:55.359Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -45,7 +45,7 @@
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
   "handoffChecks": {
-    "testedAt": "2026-10-09T11:47:45.033Z",
+    "testedAt": "2026-10-09T11:50:14.924Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "approved dashboard composition, real empty charts and responsive screenshots",
@@ -60,5 +60,5 @@
     "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
   },
   "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37925811745"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37926027033"
 }
