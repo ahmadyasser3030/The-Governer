@@ -1,19 +1,19 @@
 {
-  "savedAt": "2026-10-09T11:46:41.241Z",
-  "sourceCommit": "5cd5a23885771261fdc9daa0027d64ab69d89282",
+  "savedAt": "2026-10-09T11:48:50.434Z",
+  "sourceCommit": "9f11db86f707e7f4e0ddbefe4a6945a1efb9e060",
   "releaseUrl": "https://github.com/ahmadyasser3030/The-Governer/releases/tag/governor-v2.0.0-gold",
   "downloads": [
     {
       "name": "Governor.html",
       "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor.html",
-      "bytes": 265392,
-      "sha256": "4aab263a3811c42718a206cd0bd7c9ed8efd8484853be4fefb8c2c9aef827f64"
+      "bytes": 266061,
+      "sha256": "dba4a1468b147528ee7e530e286b12e592ecf560fce78f1a114026bc5c864abb"
     },
     {
       "name": "Governor-website.zip",
       "url": "https://github.com/ahmadyasser3030/The-Governer/releases/download/governor-v2.0.0-gold/Governor-website.zip",
-      "bytes": 157159,
-      "sha256": "6d4c1014b1b4da871c435b70cec1752e981cbdf235babab0c9b0e937ad8e461d"
+      "bytes": 157332,
+      "sha256": "03499e670fa470e3f9cd94dcf7d88128379c10b7f5f5ef011f27dc262548a418"
     }
   ],
   "websiteUrl": "https://ahmadyasser3030.github.io/The-Governer/",
