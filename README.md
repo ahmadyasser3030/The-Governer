@@ -20,6 +20,8 @@ See the [short user guide](docs/guide.html), [cloud connection guide](docs/cloud
 
 ## Gold Edition
 
+Published at the same website. All 18 core tests and 25 browser workflows passed against the deployed Gold app on October 9, 2026, including 360px layouts, offline reopening, real-data chart updates and backup restoration. See `governor-publish-status:governor-gold-check.json` for fresh evidence. Cloud cases in automated tests use a simulated API; the owner previously confirmed live syncing.
+
 One app with Today, Plans and Library: crown branding, generated local construction hero, up to three daily actions, quick capture, optional timer and check-in, goal lifecycle and retained history, real targets and monthly milestones, weekly/monthly execution chart, active-goal progress chart, calendar scheduling, categorized notes, book reading progress, optional routines, core values and weekly/monthly reviews. Cloud and backup formats remain compatible; no runtime packages, paid services or new cloud setup are required for an already-connected device.
 
 Run `npm run test:gold` for the additional lifecycle, calendar, charts, library, compatibility, backup and mobile/offline workflows. Close all Governor tabs and reopen online after publication to activate the updated offline cache.
