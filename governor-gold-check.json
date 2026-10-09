@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-09T09:51:16.556Z",
-  "sourceCommit": "190cd380a14f5f3f6eb1fc21fad02a00939c3c5d",
+  "checkedAt": "2026-10-09T11:47:45.255Z",
+  "sourceCommit": "5cd5a23885771261fdc9daa0027d64ab69d89282",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "testResult": "success",
   "browserChecks": {
-    "testedAt": "2026-10-09T09:51:09.368Z",
+    "testedAt": "2026-10-09T11:47:16.600Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -26,7 +26,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T09:51:16.300Z",
+    "testedAt": "2026-10-09T11:47:24.271Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -44,6 +44,21 @@
     "errors": [],
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
-  "privateCloudTest": "Simulated API only; owner previously confirmed live laptop-to-phone sync.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913886569"
+  "handoffChecks": {
+    "testedAt": "2026-10-09T11:47:45.033Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "approved dashboard composition, real empty charts and responsive screenshots",
+      "task durations, delete confirmation, reopen and undo persist",
+      "focus duration, start, pause, reset and low-energy quick actions work",
+      "dated milestones with evidence drive charts and appear in calendar",
+      "tagged notes can link to goals and become a single editable priority",
+      "Second Brain JSON import, editing and round-trip export retain usable records",
+      "separate accounts do not mix browser copies; sign-out hides account records; two tabs follow account changes (simulated service)"
+    ],
+    "errors": [],
+    "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
+  },
+  "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37925811745"
 }
