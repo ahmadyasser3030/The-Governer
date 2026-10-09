@@ -18,6 +18,7 @@ jobs:
           script: |
             const fs=require('node:fs'),crypto=require('node:crypto');
             const {owner,repo}=context.repo;
+            for(let sample=0;sample<3;sample++){
             const result={checkedAt:new Date().toISOString(),sourceCommit:context.sha};
             const runs=(await github.rest.actions.listWorkflowRunsForRepo({owner,repo,branch:'governor-preview',per_page:12})).data.workflow_runs;
             result.runs=[];
@@ -25,7 +26,7 @@ jobs:
               const item={name:run.name,sha:run.head_sha,status:run.status,conclusion:run.conclusion,url:run.html_url};
               if(run.conclusion==='failure'||(run.status==='in_progress'&&run.name==='Check the live Governor website')){
                 const jobs=(await github.rest.actions.listJobsForWorkflowRun({owner,repo,run_id:run.id})).data.jobs;
-                item.jobs=jobs.map(j=>({name:j.name,conclusion:j.conclusion,steps:j.steps.map(s=>({name:s.name,conclusion:s.conclusion}))}));
+                item.jobs=jobs.map(j=>({name:j.name,conclusion:j.conclusion,steps:j.steps.map(s=>({name:s.name,status:s.status,startedAt:s.started_at,conclusion:s.conclusion}))}));
               }
               result.runs.push(item);
             }
@@ -45,4 +46,7 @@ jobs:
                 await github.rest.repos.createOrUpdateFileContents({owner,repo,path,branch,message:'Record Governor publication diagnosis',content:Buffer.from(JSON.stringify(result,null,2)+'\n').toString('base64'),...(sha?{sha}:{})});
                 break;
               }catch(e){if(attempt===4||![409,422].includes(e.status))throw e;await new Promise(resolve=>setTimeout(resolve,1000));}
+            }
+
+            if(sample<2)await new Promise(resolve=>setTimeout(resolve,20000));
             }
