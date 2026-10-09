@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080a0b"><title>Update The Governor</title>
+  <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#080a0b;color:#f5f1e8;font:17px/1.6 Arial,sans-serif}main{max-width:560px;padding:32px}h1{color:#efc16d;font-size:30px}a,button{color:#efc16d}button{background:#242019;border:1px solid #8d713e;border-radius:9px;padding:12px 20px;font:inherit;cursor:pointer;min-height:48px}button:focus-visible,a:focus-visible{outline:3px solid #efc16d;outline-offset:4px}.muted{color:#bbb6ab}svg{width:56px;height:46px;fill:#efc16d}</style>
+</head>
+<body><main>
+  <svg viewBox="0 0 64 48" aria-hidden="true"><path d="M8 14 20 25 32 5 44 25 56 14 50 37H14Z"/><rect x="14" y="40" width="36" height="5" rx="2"/><circle cx="8" cy="12" r="3"/><circle cx="32" cy="4" r="3"/><circle cx="56" cy="12" r="3"/></svg>
+  <h1>Opening your updated Governor</h1>
+  <p id="status" role="status" aria-live="polite">Updating the app files. Please keep this page open for a moment.</p>
+  <p class="muted">Your saved records and sign-in stay on this device. Nothing is deleted from your cloud account.</p>
+  <button id="retry" hidden>Try again</button>
+  <p><a href="./">Return to The Governor</a></p>
+</main>
+<script>
+(() => {
+  const release='20261009-r3', status=document.querySelector('#status'), retry=document.querySelector('#retry');
+  const version=worker=>new Promise(resolve=>{
+    if(!worker)return resolve(null);
+    const channel=new MessageChannel(), timeout=setTimeout(()=>{channel.port1.close();resolve(null);},800);
+    channel.port1.onmessage=event=>{clearTimeout(timeout);channel.port1.close();resolve(event.data?.release);};
+    worker.postMessage({type:'GOVERNOR_VERSION'},[channel.port2]);
+  });
+  async function update(){
+    retry.hidden=true;
+    try {
+      if(!navigator.onLine)throw new Error('Connect to the internet, then press Try again. Your saved records are safe.');
+      if(!('serviceWorker' in navigator)){
+        location.replace('./?updated='+release);return;
+      }
+      const registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+      await registration.update();
+      // Activate safely even when another tab still has the previous app open.
+      for(let attempt=0;attempt<30;attempt++){
+        registration.waiting?.postMessage({type:'SKIP_WAITING'});
+        if(await version(navigator.serviceWorker.controller)===release){
+          status.textContent='The black-and-gold edition is ready. Opening your app…';
+          location.replace('./?updated='+release);return;
+        }
+        await new Promise(resolve=>setTimeout(resolve,300));
+      }
+      throw new Error('The update has not finished. Stay online and press Try again. No saved records have been removed.');
+    } catch(error){status.textContent=error.message;retry.hidden=false;}
+  }
+  retry.addEventListener('click',update);update();
+})();
+</script></body></html>
