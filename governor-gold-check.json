@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-09T09:51:16.556Z",
+  "sourceCommit": "190cd380a14f5f3f6eb1fc21fad02a00939c3c5d",
+  "url": "https://ahmadyasser3030.github.io/The-Governer/",
+  "testResult": "success",
+  "browserChecks": {
+    "testedAt": "2026-10-09T09:51:09.368Z",
+    "browser": "Chromium",
+    "checks": [
+      "default home shows a concrete primary action and at most three priorities",
+      "one-click completion, undo, and reload persistence",
+      "capture saves without abandoning the current view or focus timer",
+      "low energy preserves other tasks and restricts focus to one",
+      "priority editing and concrete additions work",
+      "daily check-in, weekly review, milestones and horizon persist",
+      "Vault search, editing, archive and thought-to-note work",
+      "export + import round trip keeps current and restored records",
+      "mobile layout stays within 360px and all zones are operable",
+      "missed days do not make an overdue pileup and rollover retains earlier month",
+      "offline reload, completion, capture and backup work without a network",
+      "legacy governor-data migrates automatically without changing its source",
+      "simulated private cloud sync carries laptop changes to a second device",
+      "simulated sync merges offline edits and retries a concurrent revision conflict"
+    ],
+    "errors": [],
+    "cloud": "SIMULATED API; live account and SQL access remain unverified"
+  },
+  "goldChecks": {
+    "testedAt": "2026-10-09T09:51:16.300Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "gold design, crown, optimized hero and all public assets load",
+      "goal creation defaults paused and measurable target updates the real chart",
+      "goals pause, archive, reactivate, complete and delete with retained history",
+      "calendar schedules, edits and carries actions without duplicating earlier records",
+      "weekly and monthly execution charts respond to completion and reopen",
+      "book reading status and page progress persist; notes delete with confirmation and undo",
+      "optional routines track separate dated records without inflating task charts",
+      "values, monthly review, global search and built-in help save and remain accessible",
+      "backup restore retains new goal history, books, routines and calendar records",
+      "360px layouts, gold calendar and offline hero remain usable",
+      "previous schema, goal history fields, cloud connection and private session survive upgrade"
+    ],
+    "errors": [],
+    "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
+  },
+  "privateCloudTest": "Simulated API only; owner previously confirmed live laptop-to-phone sync.",
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37913886569"
+}
