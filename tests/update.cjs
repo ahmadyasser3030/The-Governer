@@ -23,7 +23,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  fs.mkdirSync('test-results',{recursive:true});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const BASE=`http://127.0.0.1:${server.address().port}/The-Governer/`,{initialState,put,validateState}=await import('../core.js');
- const fixture=initialState('upgrade-fixture');
+ const fixture=initialState('2026-10-09','upgrade-fixture');
  put(fixture,'captures','private-capture',{text:'Private saved site observation',date:'2026-10-09'},'upgrade-fixture');
  put(fixture,'notes','private-note',{title:'My private engineering notes',body:'Do not lose this record',category:'BAUER / APM',url:'',archived:false},'upgrade-fixture');
  fixture.tasks['starter-bauer'].title='My saved BAUER priority';fixture.tasks['starter-bauer'].minutes=35;
