@@ -23,7 +23,7 @@ jobs:
             result.runs=[];
             for(const run of runs){
               const item={name:run.name,sha:run.head_sha,status:run.status,conclusion:run.conclusion,url:run.html_url};
-              if(run.conclusion==='failure'){
+              if(run.conclusion==='failure'||(run.status==='in_progress'&&run.name==='Check the live Governor website')){
                 const jobs=(await github.rest.actions.listJobsForWorkflowRun({owner,repo,run_id:run.id})).data.jobs;
                 item.jobs=jobs.map(j=>({name:j.name,conclusion:j.conclusion,steps:j.steps.map(s=>({name:s.name,conclusion:s.conclusion}))}));
               }
