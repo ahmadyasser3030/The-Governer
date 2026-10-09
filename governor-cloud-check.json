@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-09T08:23:28.285Z",
+  "projectUrl": "https://hppccgyxrppawcaspytm.supabase.co",
+  "cloudConnected": false,
+  "authStatus": 200,
+  "publicKeyAccepted": true,
+  "newSignupsDisabled": false,
+  "emailLoginEnabled": true,
+  "tableStatus": 404,
+  "tableErrorCode": "PGRST205",
+  "tableMissing": true,
+  "anonymousSelectDenied": false,
+  "note": "Read-only public checks. No authentication session, personal data, SQL changes, or live device sync were performed."
+}
