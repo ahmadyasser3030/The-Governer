@@ -1,13 +1,34 @@
 {
-  "checkedAt": "2026-10-09T07:50:56.507Z",
-  "url": null,
-  "ready": false,
+  "checkedAt": "2026-10-09T08:05:30.582Z",
+  "url": "https://ahmadyasser3030.github.io/The-Governer/",
+  "ready": true,
   "repositoryPrivate": false,
-  "sourceBranch": null,
-  "buildStatus": null,
-  "problem": "pages-404",
-  "browserResult": "skipped",
-  "browserChecks": null,
+  "sourceBranch": "governor-site",
+  "buildStatus": "built",
+  "problem": null,
+  "browserResult": "success",
+  "browserChecks": {
+    "testedAt": "2026-10-09T08:05:30.369Z",
+    "browser": "Chromium",
+    "checks": [
+      "default home shows a concrete primary action and at most three priorities",
+      "one-click completion, undo, and reload persistence",
+      "capture saves without abandoning the current view or focus timer",
+      "low energy preserves other tasks and restricts focus to one",
+      "priority editing and concrete additions work",
+      "daily check-in, weekly review, milestones and horizon persist",
+      "Vault search, editing, archive and thought-to-note work",
+      "export + import round trip keeps current and restored records",
+      "mobile layout stays within 360px and all zones are operable",
+      "missed days do not make an overdue pileup and rollover retains earlier month",
+      "offline reload, completion, capture and backup work without a network",
+      "legacy governor-data migrates automatically without changing its source",
+      "simulated private cloud sync carries laptop changes to a second device",
+      "simulated sync merges offline edits and retries a concurrent revision conflict"
+    ],
+    "errors": [],
+    "cloud": "SIMULATED API; live account and SQL access remain unverified"
+  },
   "cloudConnected": false,
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37901353202"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37902764484"
 }
