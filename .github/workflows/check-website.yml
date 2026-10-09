@@ -9,13 +9,23 @@ on:
 permissions:
   contents: write
   pages: read
+  actions: write
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+      - name: Stop older verification runs that are stuck on a network request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner,repo}=context.repo;
+            const runs=(await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:'check-website.yml',branch:'governor-preview',status:'in_progress'})).data.workflow_runs;
+            for(const run of runs)if(run.id!==context.runId&&run.head_sha!==context.sha)await github.rest.actions.cancelWorkflowRun({owner,repo,run_id:run.id});
       - name: Read the website address and check hosted files
         id: website
+        timeout-minutes: 3
         uses: actions/github-script@v7
         with:
           script: |
@@ -33,15 +43,16 @@ jobs:
             core.setOutput('url', site.html_url);
             core.setOutput('source_branch', site.source?.branch || '');
             core.setOutput('build_status', site.status || '');
-            for (let attempt = 0; attempt < 24; attempt++) {
+            for (let attempt = 0; attempt < 6; attempt++) {
               try {
-                const response = await fetch(site.html_url);
+                const response = await fetch(site.html_url,{signal:AbortSignal.timeout(10000)});
                 const html = await response.text();
-                const app = await fetch(new URL('app.js', site.html_url));
-                const worker = await fetch(new URL('sw.js', site.html_url));
+                const app = await fetch(new URL('app.js', site.html_url),{signal:AbortSignal.timeout(10000)});
+                const worker = await fetch(new URL('sw.js', site.html_url),{signal:AbortSignal.timeout(10000)});
                 const servedApp=await app.text();
                 const servedWorker=await worker.text();
-                const hero=await fetch(new URL('construction-hero.webp',site.html_url));
+                const hero=await fetch(new URL('construction-hero.webp',site.html_url),{signal:AbortSignal.timeout(10000)});
+                await hero.arrayBuffer();
                 if (response.ok && app.ok && worker.ok && hero.ok && servedApp===expectedApp && servedWorker.includes('governor-shell-v2-gold-20261009') && html.includes('THE GOVERNOR')) {
                   core.setOutput('ready', 'true');
                   return;
@@ -56,11 +67,16 @@ jobs:
         with:
           node-version: '24'
       - name: Prepare the browser
+        timeout-minutes: 5
         if: steps.website.outputs.ready == 'true'
         run: |
           npm ci
-          npx playwright install --with-deps chromium
-          node --input-type=module -e "import {chromium} from 'playwright'; console.log('GOVERNOR_CHROMIUM=' + chromium.executablePath())" >> "$GITHUB_ENV"
+          if command -v google-chrome >/dev/null; then
+            printf 'GOVERNOR_CHROMIUM=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium
+            node --input-type=module -e "import {chromium} from 'playwright'; console.log('GOVERNOR_CHROMIUM=' + chromium.executablePath())" >> "$GITHUB_ENV"
+          fi
       - name: Test the real website on laptop and phone screens, including offline use
         id: browser
         if: steps.website.outputs.ready == 'true'
