@@ -1,6 +1,6 @@
 -- Private cloud setup. Run in YOUR Supabase project's SQL editor.
 -- First create your own user in Authentication > Users > Add user.
--- Replace ALL THREE occurrences of YOUR_EMAIL@example.com with your login email.
+-- Replace every occurrence of YOUR_EMAIL@example.com with your login email.
 -- Keep the existing governor_state table if you used the V2 candidate; this does not touch it.
 
 create table if not exists public.governor_data (

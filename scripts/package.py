@@ -7,7 +7,7 @@ import json
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT.parent / 'governor-delivery'
 OUTPUT.mkdir(exist_ok=True)
-PUBLIC = ['index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html']
+PUBLIC = ['index.html', 'style.css', 'app.js', 'core.js', 'cloud.js', 'migration.js', 'sw.js', 'icon.svg', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'docs/guide.html', 'docs/cloud-setup.html', 'connect.html', 'connect.js', 'setup.sql']
 NAMES = {'core.js':'GovernorCore', 'migration.js':'GovernorMigration', 'cloud.js':'GovernorCloud'}
 
 def inline_module(file):
@@ -34,6 +34,6 @@ with ZipFile(OUTPUT/'governor-site.zip','w',ZIP_DEFLATED) as z:
     for file in PUBLIC: z.write(ROOT/file,file)
 with ZipFile(OUTPUT/'governor-complete.zip','w',ZIP_DEFLATED) as z:
     for file in PUBLIC: z.write(ROOT/file,file)
-    for file in ['setup.sql','README.md','docs/audit.md','docs/data-format.md','docs/deployment.md','docs/free-tier.md','docs/validation.md']: z.write(ROOT/file,file)
+    for file in ['README.md','docs/audit.md','docs/data-format.md','docs/deployment.md','docs/free-tier.md','docs/validation.md']: z.write(ROOT/file,file)
     for file in ['START-HERE.html','governor-offline.html','governor-site.zip']: z.write(OUTPUT/file,file)
 print(json.dumps({'output':str(OUTPUT),'hosting_files':len(PUBLIC),'hosting_bytes':sum((ROOT/f).stat().st_size for f in PUBLIC),'offline_bytes':len(html.encode()),'complete_zip_bytes':(OUTPUT/'governor-complete.zip').stat().st_size}))
