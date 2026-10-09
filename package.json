@@ -8,7 +8,8 @@
     "test": "node --test tests/core.test.js tests/profile.test.js",
     "test:browser": "node tests/browser.cjs",
     "test:gold": "node tests/gold.cjs",
-    "test:handoff": "node tests/handoff.cjs"
+    "test:handoff": "node tests/handoff.cjs",
+    "test:update": "node tests/update.cjs"
   },
   "engines": {
     "node": ">=20"

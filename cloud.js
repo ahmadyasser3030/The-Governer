@@ -1,5 +1,5 @@
-import { mergeStates, validateState } from './core.js';
-import { importFile } from './migration.js';
+import { mergeStates, validateState } from './core.js?v=20261009-r3';
+import { importFile } from './migration.js?v=20261009-r3';
 
 export const CONFIG_KEY = 'governor.cloud.config.v1';
 const SESSION_KEY = 'governor.cloud.session.v1';

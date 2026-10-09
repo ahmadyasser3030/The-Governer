@@ -75,3 +75,11 @@ The live public Supabase probe at 09:34 UTC confirmed the publishable key was ac
 ### Confirmed live handoff workflows
 
 The deployed handoff passed 23 core/profile tests and all 32 browser workflows (14 original, 11 Gold, 7 handoff) against the actual HTTPS site on 2026-10-09 at 11:47 UTC. Report source 5cd5a23885771261fdc9daa0027d64ab69d89282; workflow https://github.com/ahmadyasser3030/The-Governer/actions/runs/37925811745. All browser reports contain zero JavaScript errors. The final published-branch CSS polish is retained and receives a fresh publication check. Core private-cloud tests remain simulated, not authenticated live RLS verification.
+
+## Stale installed-shell fix — October 9, 2026
+
+The owner's screenshot exposed an upgrade path missing from earlier fresh-profile checks: a network-first newer index.html was paired with older cache-first unversioned CSS/modules. The earlier worker also waited for all existing clients to close. The exact cream CSS / new crown HTML mismatch was reproduced using the real earlier Git assets at the `/The-Governer/` path.
+
+Release 20261009-r3 versions all application module imports, entry styles and hero assets, installs one complete public shell using HTTP-cache reload, and serves a coherent installed index. The inline recovery page `update.html` bypasses shell caching, checks the active release via MessageChannel, and keeps user storage, profiles and credentials untouched. No private/cloud API response is added to the shell.
+
+23 model/profile tests, 14 browser workflows, 11 Gold workflows and 7 handoff workflows passed locally after the change. Four new update workflows passed: reproduce the screenshot's cache mismatch; upgrade with another old tab still open and exact saved-record/config/session preservation; mobile/offline edit and reload after upgrade; normal upgrade from the previous Gold worker. Test data and login tokens are synthetic. The test validates fixtures before use. Physical owner devices and private cloud account access remain unavailable. The publication workflow additionally tests the actual HTTPS update link before marking the live result successful.

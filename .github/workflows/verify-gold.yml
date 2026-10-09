@@ -1,5 +1,5 @@
 name: Verify the final published Governor app
-# Includes the latest published-branch design polish and account-profile upgrade.
+# Includes stale-cache upgrades with saved records and a second old tab still open.
 on:
   push:
     branches: [governor-preview]
@@ -13,6 +13,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -31,7 +33,7 @@ jobs:
         with:
           script: |
             const fs=require('node:fs'),base='https://ahmadyasser3030.github.io/The-Governer/';
-            const files=['index.html','style.css','app.js','core.js','migration.js','cloud.js','profile.js','sw.js'];
+            const files=['index.html','style.css','app.js','core.js','migration.js','cloud.js','profile.js','sw.js','update.html'];
             for(let attempt=0;attempt<20;attempt++){
               try{
                 const matches=await Promise.all(files.map(async file=>{
@@ -52,6 +54,7 @@ jobs:
           npm run test:browser
           npm run test:gold
           npm run test:handoff
+          npm run test:update
       - name: Save the actual website verification evidence
         if: always()
         uses: actions/github-script@v7
@@ -61,7 +64,7 @@ jobs:
           script: |
             const fs=require('node:fs');const {owner,repo}=context.repo;
             const read=p=>fs.existsSync(p)?JSON.parse(fs.readFileSync(p,'utf8')):null;
-            const data={checkedAt:new Date().toISOString(),sourceCommit:context.sha,url:'https://ahmadyasser3030.github.io/The-Governer/',testResult:process.env.TEST_RESULT||'not-run',browserChecks:read('test-results/browser-results.json'),goldChecks:read('test-results/gold-results.json'),handoffChecks:read('test-results/handoff-results.json'),privateCloudTest:'Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.',runUrl:`https://github.com/${owner}/${repo}/actions/runs/${context.runId}`};
+            const data={checkedAt:new Date().toISOString(),sourceCommit:context.sha,url:'https://ahmadyasser3030.github.io/The-Governer/',testResult:process.env.TEST_RESULT||'not-run',browserChecks:read('test-results/browser-results.json'),goldChecks:read('test-results/gold-results.json'),handoffChecks:read('test-results/handoff-results.json'),updateChecks:read('test-results/update-results.json'),privateCloudTest:'Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.',runUrl:`https://github.com/${owner}/${repo}/actions/runs/${context.runId}`};
             const branch='governor-publish-status',path='governor-gold-check.json';
             for(let attempt=0;attempt<5;attempt++){
               try{let sha;try{sha=(await github.rest.repos.getContent({owner,repo,path,ref:branch})).data.sha;}catch(e){if(e.status!==404)throw e;}
