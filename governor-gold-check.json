@@ -1,10 +1,11 @@
 {
-  "checkedAt": "2026-10-09T12:39:20.070Z",
-  "sourceCommit": "fbb783b5cfb5c3693b7b88017a8c310ba824cd94",
+  "checkedAt": "2026-10-09T12:43:44.176Z",
+  "sourceCommit": "72ad439df449af8715bf3ebb924a5e4fad27c5b1",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
-  "testResult": "failure",
+  "testResult": "success",
+  "failureOutput": null,
   "browserChecks": {
-    "testedAt": "2026-10-09T12:38:07.746Z",
+    "testedAt": "2026-10-09T12:43:12.057Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -26,7 +27,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T12:38:15.116Z",
+    "testedAt": "2026-10-09T12:43:19.541Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -45,7 +46,7 @@
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
   "handoffChecks": {
-    "testedAt": "2026-10-09T12:38:41.613Z",
+    "testedAt": "2026-10-09T12:43:43.974Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "approved dashboard composition, real empty charts and responsive screenshots",
@@ -59,8 +60,33 @@
     "errors": [],
     "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
   },
-  "updateChecks": null,
-  "areaChecks": null,
+  "updateChecks": {
+    "testedAt": "2026-10-09T12:42:58.006Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "reproduces old cream cache mixed with new crown HTML on the real Pages subpath",
+      "safe updater replaces stale worker with another old tab open and preserves every saved record and login",
+      "upgraded mobile app saves offline edits and reopens with its gold shell and hero",
+      "normal reopening also upgrades the previous Gold cache without needing the helper",
+      "published update link opens the verified gold edition, then works offline"
+    ],
+    "errors": [],
+    "upgradeFixtures": "Actual earlier cream and Gold Git files, synthetic private records/session; no real account credentials."
+  },
+  "areaChecks": {
+    "testedAt": "2026-10-09T12:43:03.889Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "old six main areas are retained; new area persists and opens its own Library topic",
+      "renaming updates sidebar and Library labels without rewriting notes or goals",
+      "removing and restoring default/custom shortcuts retains all linked resources",
+      "backup round-trip restores area names, hidden shortcuts and notes without duplicates",
+      "mobile Settings can edit areas offline, with no overflow and saved changes after reload",
+      "area settings merge across two cloud sessions and stay separate across accounts (simulated service)"
+    ],
+    "errors": [],
+    "cloud": "Two sessions/account separation tested with simulated API; private live account unavailable."
+  },
   "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37931244825"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37931801800"
 }
