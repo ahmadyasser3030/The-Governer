@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-10-09T12:43:44.176Z",
-  "sourceCommit": "72ad439df449af8715bf3ebb924a5e4fad27c5b1",
+  "checkedAt": "2026-10-09T13:45:03.322Z",
+  "sourceCommit": "b153c59735be10156b15b7d92aa81160462cc6af",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "testResult": "success",
   "failureOutput": null,
   "browserChecks": {
-    "testedAt": "2026-10-09T12:43:12.057Z",
+    "testedAt": "2026-10-09T13:44:32.700Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -27,7 +27,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T12:43:19.541Z",
+    "testedAt": "2026-10-09T13:44:38.472Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -46,7 +46,7 @@
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
   "handoffChecks": {
-    "testedAt": "2026-10-09T12:43:43.974Z",
+    "testedAt": "2026-10-09T13:45:03.147Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "approved dashboard composition, real empty charts and responsive screenshots",
@@ -61,7 +61,7 @@
     "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
   },
   "updateChecks": {
-    "testedAt": "2026-10-09T12:42:58.006Z",
+    "testedAt": "2026-10-09T13:44:14.503Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "reproduces old cream cache mixed with new crown HTML on the real Pages subpath",
@@ -74,7 +74,7 @@
     "upgradeFixtures": "Actual earlier cream and Gold Git files, synthetic private records/session; no real account credentials."
   },
   "areaChecks": {
-    "testedAt": "2026-10-09T12:43:03.889Z",
+    "testedAt": "2026-10-09T13:44:18.865Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "old six main areas are retained; new area persists and opens its own Library topic",
@@ -87,6 +87,32 @@
     "errors": [],
     "cloud": "Two sessions/account separation tested with simulated API; private live account unavailable."
   },
+  "linkedPlanChecks": {
+    "testedAt": "2026-10-09T13:44:23.578Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "new paused plans with 30-day and yearly horizons immediately populate Supports",
+      "completed days update the linked plan independently of the daily task total; reopening reverses them",
+      "reassigning a completed priority moves its day to its yearly plan; Other stays unlinked",
+      "editing the plan horizon updates the chart without overwriting its outcome target; JSON restores the same records",
+      "thought deletion works in the inbox, archive and editor, supports undo and persists after refresh",
+      "mobile offline task-to-plan edits persist and both charts fit at 360px",
+      "two simulated cloud sessions merge plan links, completion days and thought deletion without crossing accounts"
+    ],
+    "errors": [],
+    "cloud": "Two-session/account API is simulated, not live authenticated Supabase."
+  },
+  "parkedChecks": {
+    "testedAt": "2026-10-09T13:44:26.129Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "six extra priorities can be added directly while three stay in focus; each retains Supports",
+      "the next group stays locked until the current three finish; at most three parked tasks move together",
+      "a parked task counts only after focus and completion; edits, reopening and backups retain the queue",
+      "mobile offline entry creates parked work without exceeding the focus limit or losing it on refresh"
+    ],
+    "errors": []
+  },
   "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37931801800"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37938830221"
 }
