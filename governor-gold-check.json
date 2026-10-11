@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-10-09T13:45:03.322Z",
-  "sourceCommit": "b153c59735be10156b15b7d92aa81160462cc6af",
+  "checkedAt": "2026-10-11T10:34:46.920Z",
+  "sourceCommit": "2bc41775de679e97b5c403971e462a34920206be",
   "url": "https://ahmadyasser3030.github.io/The-Governer/",
   "testResult": "success",
   "failureOutput": null,
   "browserChecks": {
-    "testedAt": "2026-10-09T13:44:32.700Z",
+    "testedAt": "2026-10-11T10:34:15.183Z",
     "browser": "Chromium",
     "checks": [
       "default home shows a concrete primary action and at most three priorities",
@@ -27,7 +27,7 @@
     "cloud": "SIMULATED API; live account and SQL access remain unverified"
   },
   "goldChecks": {
-    "testedAt": "2026-10-09T13:44:38.472Z",
+    "testedAt": "2026-10-11T10:34:21.113Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "gold design, crown, optimized hero and all public assets load",
@@ -46,7 +46,7 @@
     "cloud": "Two-session synchronization is tested in browser.cjs with simulated API. No private owner session was available."
   },
   "handoffChecks": {
-    "testedAt": "2026-10-09T13:45:03.147Z",
+    "testedAt": "2026-10-11T10:34:46.742Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "approved dashboard composition, real empty charts and responsive screenshots",
@@ -61,7 +61,7 @@
     "cloud": "Simulated multi-account API; live authenticated RLS requires project owner setup and two real accounts."
   },
   "updateChecks": {
-    "testedAt": "2026-10-09T13:44:14.503Z",
+    "testedAt": "2026-10-11T10:33:54.456Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "reproduces old cream cache mixed with new crown HTML on the real Pages subpath",
@@ -74,7 +74,7 @@
     "upgradeFixtures": "Actual earlier cream and Gold Git files, synthetic private records/session; no real account credentials."
   },
   "areaChecks": {
-    "testedAt": "2026-10-09T13:44:18.865Z",
+    "testedAt": "2026-10-11T10:33:58.872Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "old six main areas are retained; new area persists and opens its own Library topic",
@@ -88,7 +88,7 @@
     "cloud": "Two sessions/account separation tested with simulated API; private live account unavailable."
   },
   "linkedPlanChecks": {
-    "testedAt": "2026-10-09T13:44:23.578Z",
+    "testedAt": "2026-10-11T10:34:03.771Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "new paused plans with 30-day and yearly horizons immediately populate Supports",
@@ -103,7 +103,7 @@
     "cloud": "Two-session/account API is simulated, not live authenticated Supabase."
   },
   "parkedChecks": {
-    "testedAt": "2026-10-09T13:44:26.129Z",
+    "testedAt": "2026-10-11T10:34:06.467Z",
     "url": "https://ahmadyasser3030.github.io/The-Governer/",
     "checks": [
       "six extra priorities can be added directly while three stay in focus; each retains Supports",
@@ -113,6 +113,17 @@
     ],
     "errors": []
   },
+  "dailyNotesChecks": {
+    "testedAt": "2026-10-11T10:34:08.513Z",
+    "url": "https://ahmadyasser3030.github.io/The-Governer/",
+    "checks": [
+      "a dated daily note saves, edits and survives refresh without changing existing priorities",
+      "a thought can become a dated note and is visibly archived instead of remaining stuck in the inbox",
+      "calendar reminder flags save, edit and delete without creating a task",
+      "daily notes and thought controls remain usable on a small phone screen"
+    ],
+    "errors": []
+  },
   "privateCloudTest": "Simulated two-account API only; owner previously confirmed live laptop-to-phone sync. Optional multi-user SQL has not been applied or tested on the live database.",
-  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/37938830221"
+  "runUrl": "https://github.com/ahmadyasser3030/The-Governer/actions/runs/38132265683"
 }
