@@ -12,7 +12,8 @@
     "test:update": "node tests/update.cjs",
     "test:areas": "node tests/areas.cjs",
     "test:links": "node tests/linked-plans.cjs",
-    "test:parked": "node tests/parked.cjs"
+    "test:parked": "node tests/parked.cjs",
+    "test:daily": "node tests/daily-notes.cjs"
   },
   "engines": {
     "node": ">=20"

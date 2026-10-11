@@ -40,7 +40,7 @@ async function configure(page) {
   await page.locator('[data-action=timer-toggle]').click();
   await page.locator('#capture-text').fill('Ask about the BAUER reporting cadence');await page.locator('#inline-capture button').click();
   assert.equal(await page.locator('h1').innerText(),'A clear path for today.');assert.equal(await page.locator('#timer-toggle').innerText(),'Pause');
-  await page.locator('[data-action=capture]').click();await page.locator('#modal-capture').fill('Think about the graduation project input schema');await page.getByRole('button',{name:'Capture & return'}).click();assert.equal(await page.locator('dialog[open]').count(),0);
+  await page.locator('[data-action=capture]').click();await page.locator('#modal-capture').fill('Think about the graduation project input schema');await page.locator('#capture-form button[type=submit]').click();assert.equal(await page.locator('dialog[open]').count(),0);
   await page.reload();assert.equal(await page.locator('#timer-toggle').innerText(),'Pause');
  });
  await check('low energy preserves other tasks and restricts focus to one',async()=>{
